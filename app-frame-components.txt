@@ -1,0 +1,3 @@
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\app-frame.component.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\global-search\global-search.component.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\toasts-dropdown\toasts-dropdown.component.ts

@@ -15,6 +15,13 @@ from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
 
+from documents.views import CreateDocumentFromHtmlView
+
+from documents.views import CorrespondentViewSet
+from documents.views import CreateDocumentFromHtmlView
+from documents.views import CustomFieldViewSet
+
+
 from documents.views import BulkDownloadView
 from documents.views import BulkEditObjectsView
 from documents.views import BulkEditView
@@ -147,6 +154,13 @@ urlpatterns = [
                                 PostDocumentView.as_view(),
                                 name="post_document",
                             ),
+
+                            re_path(
+                                "^create_from_html/",
+                                CreateDocumentFromHtmlView.as_view(),
+                                name="create_document_from_html",
+                            ),
+
                             re_path(
                                 "^bulk_edit/",
                                 BulkEditView.as_view(),

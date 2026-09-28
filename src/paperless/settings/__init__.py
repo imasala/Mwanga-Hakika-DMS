@@ -132,6 +132,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "django_auth_ldap",
+
     "corsheaders",
     "django_extensions",
     "paperless",
@@ -313,9 +316,38 @@ if DEBUG:  # pragma: no cover
 
 AUTHENTICATION_BACKENDS = [
     "guardian.backends.ObjectPermissionBackend",
+    "django_auth_ldap.backend.LDAPBackend",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
+import ldap
+from django_auth_ldap.config import LDAPSearch
+
+AUTH_LDAP_SERVER_URI = os.getenv(
+    "PAPERLESS_LDAP_SERVER_URI"
+)
+
+AUTH_LDAP_BIND_DN = os.getenv(
+    "PAPERLESS_LDAP_BIND_DN"
+)
+
+AUTH_LDAP_BIND_PASSWORD = os.getenv(
+    "PAPERLESS_LDAP_BIND_PASSWORD"
+)
+
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    os.getenv("PAPERLESS_LDAP_BASE"),
+    ldap.SCOPE_SUBTREE,
+    "(sAMAccountName=%(user)s)",
+)
+
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+AUTH_LDAP_NO_NEW_USERS = True
+
+import logging
+
+logging.getLogger("django_auth_ldap").setLevel(logging.DEBUG)
 
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.getenv(

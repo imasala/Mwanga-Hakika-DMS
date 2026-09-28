@@ -259,6 +259,12 @@ export class DocumentDetailComponent
   // Versioning
   readonly selectedVersionId = signal<number>(undefined)
 
+  readonly serviceTypes = [
+  { id: 'marketing', name: $localize`Marketing` },
+  { id: 'loan', name: $localize`Loan` },
+  { id: 'guarantee', name: $localize`Guarantee` },
+  ]
+
   readonly correspondents = signal<Correspondent[]>(undefined)
   readonly documentTypes = signal<DocumentType[]>(undefined)
   readonly storagePaths = signal<StoragePath[]>(undefined)
@@ -267,6 +273,14 @@ export class DocumentDetailComponent
     title: new FormControl(''),
     content: new FormControl(''),
     created: new FormControl(),
+    
+    service_provider: new FormControl(),
+    service_type: new FormControl(),
+    department: new FormControl(),
+    tenure: new FormControl(),
+    start_date: new FormControl(),
+    expiry_date: new FormControl(),
+    
     correspondent: new FormControl(),
     document_type: new FormControl(),
     storage_path: new FormControl(),
@@ -475,6 +489,7 @@ export class DocumentDetailComponent
       title: originalDocument.title,
       content: originalDocument.content,
       created: originalDocument.created,
+      expiry_date: originalDocument.expiry_date,
       correspondent: originalDocument.correspondent,
       document_type: originalDocument.document_type,
       storage_path: originalDocument.storage_path,

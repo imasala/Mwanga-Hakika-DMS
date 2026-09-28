@@ -1,6 +1,9 @@
 import datetime
 from pathlib import Path
 from typing import Final
+from dateutil.relativedelta import relativedelta
+
+from paperless.models import UserRole
 
 import pathvalidate
 from django.conf import settings
@@ -240,6 +243,125 @@ class Document(SoftDeleteModel, ModelWithOwner):  # type: ignore[django-manager-
             "The number of pages of the document.",
         ),
     )
+
+    service_provider = models.CharField(
+    _("name of service provider"),
+    max_length=255,
+    blank=True,
+    null=True,
+    db_index=True,
+    )
+
+    allowed_groups = models.ManyToManyField(
+    Group,
+    blank=True,
+    related_name="accessible_documents",
+    verbose_name=_("allowed groups"),
+    )
+
+    # allowed_roles = MultiSelectField(
+    # choices=[
+    #     ("ADMIN", _("Admin")),
+    #     ("HEAD", _("Head")),
+    #     ("MANAGER", _("Manager")),
+    #     ("ASSISTANT_MANAGER", _("Assistant Manager")),
+    #     ("SENIOR_OFFICER", _("Senior Officer")),
+    #     ("OFFICER", _("Officer")),
+    # ],
+    # blank=True,
+    # max_length=200,
+    # verbose_name=_("allowed roles"),
+    # )
+
+    SERVICE_TYPE_CHOICES = [
+    ("marketing", _("Marketing")),
+    ("loan", _("Loan")),
+    ("guarantee", _("Guarantee")),
+    ]
+
+    service_type = models.CharField(
+        _("type of service"),
+        max_length=50,
+        choices=SERVICE_TYPE_CHOICES,
+        blank=True,
+        null=True,
+        db_index=True,
+    )
+
+    department = models.CharField(
+        _("department"),
+        max_length=255,
+        blank=True,
+        null=True,
+        db_index=True,
+    )
+
+
+    allowed_roles = MultiSelectField(
+        choices=UserRole.Role.choices,
+        blank=True,
+        max_length=255,
+        verbose_name=_("allowed roles"),
+    )
+
+    tenure = models.CharField(
+        _("tenure"),
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+
+    start_date = models.DateField(
+        _("start date"),
+        blank=True,
+        null=True,
+        db_index=True,
+    )
+
+    expiry_date = models.DateField(
+        _("expiry date"),
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text=_("The expiry date of the document."),
+    )
+
+    class ExpiryStatus(models.TextChoices):
+        NO_EXPIRY = "no_expiry", _("No expiry")
+        VALID = "valid", _("Valid")
+        EXPIRING_SOON = "expiring_soon", _("Expiring soon")
+        EXPIRED = "expired", _("Expired")
+
+    class DocumentStatus(models.TextChoices):
+        ACTIVE = "active", _("Active")
+        PENDING = "pending", _("Pending")
+        EXPIRED = "expired", _("Expired")
+        REVOKED = "revoked", _("Revoked")
+
+    status = models.CharField(
+        _("status"),
+        max_length=20,
+        choices=DocumentStatus.choices,
+        default=DocumentStatus.PENDING,
+        db_index=True,
+    )
+
+    @property
+    def expiry_status(self):
+        if not self.expiry_date:
+            return "no expiry"
+
+        today = timezone.now().date()
+
+        if self.expiry_date < today:
+            return "expired"
+
+        three_months_from_now = today + relativedelta(months=3)
+
+        if self.expiry_date <= three_months_from_now:
+            return "expiring soon"
+
+        return "valid"
 
     created = models.DateField(
         _("created"),
@@ -524,7 +646,7 @@ class SavedView(ModelWithOwner):
         TITLE = ("title", _("Title"))
         CREATED = ("created", _("Created"))
         ADDED = ("added", _("Added"))
-        TAGS = ("tag"), _("Tags")
+        TAGS = ("tag", _("Tags"))
         CORRESPONDENT = ("correspondent", _("Correspondent"))
         DOCUMENT_TYPE = ("documenttype", _("Document Type"))
         STORAGE_PATH = ("storagepath", _("Storage Path"))
@@ -533,7 +655,16 @@ class SavedView(ModelWithOwner):
         SHARED = ("shared", _("Shared"))
         ASN = ("asn", _("ASN"))
         PAGE_COUNT = ("pagecount", _("Pages"))
-        CUSTOM_FIELD = ("custom_field_%d", ("Custom Field"))
+
+        SERVICE_PROVIDER = ("service_provider", _("Service Provider"))
+        SERVICE_TYPE = ("service_type", _("Service Type"))
+        DEPARTMENT = ("department", _("Department"))
+        TENURE = ("tenure", _("Tenure"))
+        START_DATE = ("start_date", _("Start Date"))
+        EXPIRY_DATE = ("expiry_date", _("Expiry Date"))
+        EXPIRY_STATUS = ("expiry_status", _("Expiry Status"))
+
+        CUSTOM_FIELD = ("custom_field_%d", _("Custom Field"))
 
     name = models.CharField(_("name"), max_length=128)
 
@@ -627,6 +758,14 @@ class SavedViewFilterRule(models.Model):
         (47, _("mime type is")),
         (48, _("simple title search")),
         (49, _("simple text search")),
+        (50, _("expiry on or before")),
+        (51, _("expiry on or after")),
+        (52, _("expiry date is empty")),
+        (53, _("expiry before")),
+        (54, _("service provider contains")),
+        (55, _("service type contains")),
+        (56, _("department contains")),
+        (57, _("tenure contains")),
     ]
 
     saved_view = models.ForeignKey(

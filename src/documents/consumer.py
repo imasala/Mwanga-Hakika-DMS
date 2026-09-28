@@ -18,6 +18,8 @@ from django.utils import timezone
 from filelock import FileLock
 from rest_framework.reverse import reverse
 
+# from documents.qr_stamping import stamp_document_with_qr
+
 from documents.classifier import load_classifier
 from documents.data_models import ConsumableDocument
 from documents.data_models import ConsumeFileSuccessResult
@@ -719,9 +721,12 @@ class ConsumerPlugin(
                                     document.archive_path,
                                 )
 
+                            # stamp_document_with_qr(document)
+
+                            if document.has_archive_version and document.archive_path is not None:
                                 document.archive_checksum = compute_checksum(
                                     document.archive_path,
-                                )
+                                    )
 
                         # Don't save with the lock active. Saving will cause the file
                         # renaming logic to acquire the lock as well.

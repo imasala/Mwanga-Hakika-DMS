@@ -43,6 +43,17 @@ export const FILTER_CREATED_FROM = 44
 export const FILTER_ADDED_TO = 45
 export const FILTER_ADDED_FROM = 46
 
+export const FILTER_EXPIRY_TO = 50
+export const FILTER_EXPIRY_FROM = 51
+export const FILTER_EXPIRY_ISNULL = 52
+export const FILTER_EXPIRY_BEFORE = 53
+
+export const FILTER_SERVICE_PROVIDER = 54
+export const FILTER_SERVICE_TYPE = 55
+export const FILTER_DEPARTMENT = 56
+export const FILTER_TENURE = 57
+
+
 export const FILTER_MODIFIED_BEFORE = 15
 export const FILTER_MODIFIED_AFTER = 16
 
@@ -188,6 +199,60 @@ export const FILTER_RULE_TYPES: FilterRuleType[] = [
     multi: false,
     default: true,
   },
+  {
+  id: FILTER_EXPIRY_TO,
+  filtervar: 'expiry_date__lte',
+  datatype: 'date',
+  multi: false,
+  },
+  {
+  id: FILTER_EXPIRY_FROM,
+  filtervar: 'expiry_date__gte',
+  datatype: 'date',
+  multi: false,
+  },
+  {
+  id: FILTER_EXPIRY_ISNULL,
+  filtervar: 'expiry_date__isnull',
+  datatype: 'boolean',
+  multi: false,
+  },
+  {
+  id: FILTER_EXPIRY_BEFORE,
+  filtervar: 'expiry_date__lt',
+  datatype: 'date',
+  multi: false,
+  },
+
+  {
+    id: FILTER_SERVICE_PROVIDER,
+    filtervar: 'service_provider__icontains',
+    datatype: 'string',
+    multi: false,
+    default: '',
+  },
+  {
+    id: FILTER_SERVICE_TYPE,
+    filtervar: 'service_type__icontains',
+    datatype: 'string',
+    multi: false,
+    default: '',
+  },
+  {
+    id: FILTER_DEPARTMENT,
+    filtervar: 'department__icontains',
+    datatype: 'string',
+    multi: false,
+    default: '',
+  },
+  {
+    id: FILTER_TENURE,
+    filtervar: 'tenure__icontains',
+    datatype: 'string',
+    multi: false,
+    default: '',
+  },
+
   {
     id: FILTER_CREATED_BEFORE,
     filtervar: 'created__date__lt',

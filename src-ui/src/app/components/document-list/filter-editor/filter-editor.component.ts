@@ -9,7 +9,10 @@ import {
   Output,
   ViewChild,
   inject,
+  
 } from '@angular/core'
+
+import { ExpiryDropdownComponent } from 'src/app/components/common/expiry-dropdown/expiry-dropdown.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {
   NgbDropdownModule,
@@ -71,12 +74,21 @@ import {
   FILTER_OWNER_DOES_NOT_INCLUDE,
   FILTER_OWNER_ISNULL,
   FILTER_SHARED_BY_USER,
+  FILTER_SERVICE_PROVIDER,
+  FILTER_SERVICE_TYPE,
+  FILTER_DEPARTMENT,
+  FILTER_TENURE,
   FILTER_SIMPLE_TEXT,
   FILTER_SIMPLE_TITLE,
   FILTER_STORAGE_PATH,
   FILTER_TITLE,
   FILTER_TITLE_CONTENT,
   NEGATIVE_NULL_FILTER_VALUE,
+
+
+  FILTER_EXPIRY_FROM,
+  FILTER_EXPIRY_TO,
+  FILTER_EXPIRY_ISNULL,
 } from 'src/app/data/filter-rule-type'
 import { SelectionData, SelectionDataItem } from 'src/app/data/results'
 import {
@@ -126,6 +138,11 @@ const TEXT_FILTER_TARGET_FULLTEXT_QUERY = 'fulltext-query'
 const TEXT_FILTER_TARGET_FULLTEXT_MORELIKE = 'fulltext-morelike'
 const TEXT_FILTER_TARGET_CUSTOM_FIELDS = 'custom-fields'
 const TEXT_FILTER_TARGET_MIME_TYPE = 'mime-type'
+
+const TEXT_FILTER_TARGET_SERVICE_PROVIDER = 'service-provider'
+const TEXT_FILTER_TARGET_SERVICE_TYPE = 'service-type'
+const TEXT_FILTER_TARGET_DEPARTMENT = 'department'
+const TEXT_FILTER_TARGET_TENURE = 'tenure'
 
 const TEXT_FILTER_MODIFIER_EQUALS = 'equals'
 const TEXT_FILTER_MODIFIER_NULL = 'is null'
@@ -199,6 +216,22 @@ const DEFAULT_TEXT_FILTER_TARGET_OPTIONS = [
   { id: TEXT_FILTER_TARGET_ASN, name: $localize`ASN` },
   { id: TEXT_FILTER_TARGET_MIME_TYPE, name: $localize`File type` },
   {
+    id: TEXT_FILTER_TARGET_SERVICE_PROVIDER,
+    name: $localize`Service Provider`,
+  },
+  {
+    id: TEXT_FILTER_TARGET_SERVICE_TYPE,
+    name: $localize`Service Type`,
+  },
+  {
+    id: TEXT_FILTER_TARGET_DEPARTMENT,
+    name: $localize`Department`,
+  },
+  {
+    id: TEXT_FILTER_TARGET_TENURE,
+    name: $localize`Tenure`,
+  },
+  {
     id: TEXT_FILTER_TARGET_FULLTEXT_QUERY,
     name: $localize`Advanced search`,
   },
@@ -246,6 +279,7 @@ const DEFAULT_TEXT_FILTER_MODIFIER_OPTIONS = [
     FilterableDropdownComponent,
     CustomFieldsQueryDropdownComponent,
     DatesDropdownComponent,
+    ExpiryDropdownComponent,
     PermissionsFilterDropdownComponent,
     NgxBootstrapIconsModule,
     NgbDropdownModule,
@@ -403,6 +437,11 @@ export class FilterEditorComponent
   dateCreatedFrom: string
   dateAddedTo: string
   dateAddedFrom: string
+
+  dateExpiryTo: string
+  dateExpiryFrom: string
+  expiryIsNull: boolean = false
+  
   dateCreatedRelativeDate: RelativeDate
   dateAddedRelativeDate: RelativeDate
 
@@ -430,6 +469,11 @@ export class FilterEditorComponent
       return
     }
     this._filterRules = value
+
+    this.dateExpiryTo = null
+    this.dateExpiryFrom = null
+    this.expiryIsNull = false
+
 
     this.documentTypeSelectionModel.clear(false)
     this.storagePathSelectionModel.clear(false)
@@ -463,6 +507,18 @@ export class FilterEditorComponent
           this._textFilter = rule.value
           this.textFilterTarget = TEXT_FILTER_TARGET_ASN
           break
+       case FILTER_EXPIRY_ISNULL:
+          this.expiryIsNull = rule.value === 'true'
+          break
+
+        case FILTER_EXPIRY_FROM:
+          this.dateExpiryFrom = rule.value
+          break
+
+        case FILTER_EXPIRY_TO:
+          this.dateExpiryTo = rule.value
+          break
+          
         case FILTER_CUSTOM_FIELDS_TEXT:
           this._textFilter = rule.value
           this.textFilterTarget = TEXT_FILTER_TARGET_CUSTOM_FIELDS
@@ -471,6 +527,26 @@ export class FilterEditorComponent
           this.textFilterTarget = TEXT_FILTER_TARGET_MIME_TYPE
           this._textFilter = rule.value
           break
+        case FILTER_SERVICE_PROVIDER:
+          this._textFilter = rule.value
+          this.textFilterTarget = TEXT_FILTER_TARGET_SERVICE_PROVIDER
+          break
+
+        case FILTER_SERVICE_TYPE:
+          this._textFilter = rule.value
+          this.textFilterTarget = TEXT_FILTER_TARGET_SERVICE_TYPE
+          break
+
+        case FILTER_DEPARTMENT:
+          this._textFilter = rule.value
+          this.textFilterTarget = TEXT_FILTER_TARGET_DEPARTMENT
+          break
+
+        case FILTER_TENURE:
+          this._textFilter = rule.value
+          this.textFilterTarget = TEXT_FILTER_TARGET_TENURE
+          break
+        
         case FILTER_FULLTEXT_QUERY:
           let allQueryArgs = rule.value.split(',')
           let textQueryArgs = []
@@ -764,6 +840,12 @@ export class FilterEditorComponent
           }
       }
     })
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const todayString = today.toISOString().split('T')[0]
+
+
     this.rulesModified = filterRulesDiffer(
       this._unmodifiedFilterRules,
       this._filterRules
@@ -831,6 +913,45 @@ export class FilterEditorComponent
       filterRules.push({
         rule_type: FILTER_MIME_TYPE,
         value: this._textFilter,
+      })
+    }
+    if (
+      this._textFilter &&
+      this.textFilterTarget == TEXT_FILTER_TARGET_SERVICE_PROVIDER
+    ) {
+      filterRules.push({
+        rule_type: FILTER_SERVICE_PROVIDER,
+        value: this._textFilter.trim(),
+      })
+    }
+
+    if (
+      this._textFilter &&
+      this.textFilterTarget == TEXT_FILTER_TARGET_SERVICE_TYPE
+    ) {
+      filterRules.push({
+        rule_type: FILTER_SERVICE_TYPE,
+        value: this._textFilter.trim(),
+      })
+    }
+
+    if (
+      this._textFilter &&
+      this.textFilterTarget == TEXT_FILTER_TARGET_DEPARTMENT
+    ) {
+      filterRules.push({
+        rule_type: FILTER_DEPARTMENT,
+        value: this._textFilter.trim(),
+      })
+    }
+
+    if (
+      this._textFilter &&
+      this.textFilterTarget == TEXT_FILTER_TARGET_TENURE
+    ) {
+      filterRules.push({
+        rule_type: FILTER_TENURE,
+        value: this._textFilter.trim(),
       })
     }
     if (
@@ -1113,6 +1234,8 @@ export class FilterEditorComponent
         value: 'false',
       })
     }
+
+
     return filterRules
   }
 

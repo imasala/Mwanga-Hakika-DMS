@@ -1,0 +1,984 @@
+Folder PATH listing
+Volume serial number is 00000005 B88F:2D5F
+C:.
+|   .editorconfig
+|   .gitignore
+|   .npmrc
+|   angular.json
+|   eslint.config.js
+|   extra-webpack.config.ts
+|   jest.config.js
+|   messages.xlf
+|   package.json
+|   paperless_structure.txt
+|   playwright.config.ts
+|   pnpm-lock.yaml
+|   pnpm-workspace.yaml
+|   README.md
+|   setup-jest.ts
+|   tsconfig.app.json
+|   tsconfig.json
+|   tsconfig.spec.json
+|   
++---e2e
+|   +---admin
+|   |   |   settings.spec.ts
+|   |   |   
+|   |   \---requests
+|   |           api-settings.har
+|   |           
+|   +---dashboard
+|   |   |   dashboard.spec.ts
+|   |   |   
+|   |   \---requests
+|   |           api-dashboard1.har
+|   |           api-dashboard2.har
+|   |           api-dashboard3.har
+|   |           api-dashboard4.har
+|   |           
+|   +---document-detail
+|   |   |   document-detail.spec.ts
+|   |   |   
+|   |   \---requests
+|   |           api-document-detail.har
+|   |           api-document-detail2.har
+|   |           
+|   +---document-list
+|   |   |   document-list.spec.ts
+|   |   |   
+|   |   \---requests
+|   |           api-document-list1.har
+|   |           api-document-list2.har
+|   |           api-document-list3.har
+|   |           api-document-list4.har
+|   |           api-document-list5.har
+|   |           api-document-list6.har
+|   |           
+|   \---permissions
+|       |   global-permissions.spec.ts
+|       |   
+|       \---requests
+|               api-global-permissions.har
+|               
++---src
+|   |   apple-touch-icon.png
+|   |   favicon.ico
+|   |   index.html
+|   |   main.ts
+|   |   manifest.webmanifest
+|   |   polyfills.ts
+|   |   print.scss
+|   |   styles.scss
+|   |   theme.scss
+|   |   
+|   +---app
+|   |   |   app-routing.module.ts
+|   |   |   app.component.html
+|   |   |   app.component.scss
+|   |   |   app.component.spec.ts
+|   |   |   app.component.ts
+|   |   |   
+|   |   +---components
+|   |   |   +---admin
+|   |   |   |   +---config
+|   |   |   |   |       config.component.html
+|   |   |   |   |       config.component.scss
+|   |   |   |   |       config.component.spec.ts
+|   |   |   |   |       config.component.ts
+|   |   |   |   |       
+|   |   |   |   +---logs
+|   |   |   |   |       logs.component.html
+|   |   |   |   |       logs.component.scss
+|   |   |   |   |       logs.component.spec.ts
+|   |   |   |   |       logs.component.ts
+|   |   |   |   |       
+|   |   |   |   +---settings
+|   |   |   |   |       settings.component.html
+|   |   |   |   |       settings.component.scss
+|   |   |   |   |       settings.component.spec.ts
+|   |   |   |   |       settings.component.ts
+|   |   |   |   |       
+|   |   |   |   +---tasks
+|   |   |   |   |       tasks.component.html
+|   |   |   |   |       tasks.component.scss
+|   |   |   |   |       tasks.component.spec.ts
+|   |   |   |   |       tasks.component.ts
+|   |   |   |   |       
+|   |   |   |   +---trash
+|   |   |   |   |       trash.component.html
+|   |   |   |   |       trash.component.scss
+|   |   |   |   |       trash.component.spec.ts
+|   |   |   |   |       trash.component.ts
+|   |   |   |   |       
+|   |   |   |   \---users-groups
+|   |   |   |           users-groups.component.html
+|   |   |   |           users-groups.component.scss
+|   |   |   |           users-groups.component.spec.ts
+|   |   |   |           users-groups.component.ts
+|   |   |   |           
+|   |   |   +---app-frame
+|   |   |   |   |   app-frame.component.html
+|   |   |   |   |   app-frame.component.scss
+|   |   |   |   |   app-frame.component.spec.ts
+|   |   |   |   |   app-frame.component.ts
+|   |   |   |   |   
+|   |   |   |   +---global-search
+|   |   |   |   |       global-search.component.html
+|   |   |   |   |       global-search.component.scss
+|   |   |   |   |       global-search.component.spec.ts
+|   |   |   |   |       global-search.component.ts
+|   |   |   |   |       
+|   |   |   |   \---toasts-dropdown
+|   |   |   |           toasts-dropdown.component.html
+|   |   |   |           toasts-dropdown.component.scss
+|   |   |   |           toasts-dropdown.component.spec.ts
+|   |   |   |           toasts-dropdown.component.ts
+|   |   |   |           
+|   |   |   +---chat
+|   |   |   |   \---chat
+|   |   |   |           chat.component.html
+|   |   |   |           chat.component.scss
+|   |   |   |           chat.component.spec.ts
+|   |   |   |           chat.component.ts
+|   |   |   |           
+|   |   |   +---common
+|   |   |   |   +---clearable-badge
+|   |   |   |   |       clearable-badge.component.html
+|   |   |   |   |       clearable-badge.component.scss
+|   |   |   |   |       clearable-badge.component.spec.ts
+|   |   |   |   |       clearable-badge.component.ts
+|   |   |   |   |       
+|   |   |   |   +---confirm-button
+|   |   |   |   |       confirm-button.component.html
+|   |   |   |   |       confirm-button.component.scss
+|   |   |   |   |       confirm-button.component.spec.ts
+|   |   |   |   |       confirm-button.component.ts
+|   |   |   |   |       
+|   |   |   |   +---confirm-dialog
+|   |   |   |   |   |   confirm-dialog.component.html
+|   |   |   |   |   |   confirm-dialog.component.scss
+|   |   |   |   |   |   confirm-dialog.component.spec.ts
+|   |   |   |   |   |   confirm-dialog.component.ts
+|   |   |   |   |   |   
+|   |   |   |   |   +---merge-confirm-dialog
+|   |   |   |   |   |       merge-confirm-dialog.component.html
+|   |   |   |   |   |       merge-confirm-dialog.component.scss
+|   |   |   |   |   |       merge-confirm-dialog.component.spec.ts
+|   |   |   |   |   |       merge-confirm-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---password-removal-confirm-dialog
+|   |   |   |   |   |       password-removal-confirm-dialog.component.html
+|   |   |   |   |   |       password-removal-confirm-dialog.component.scss
+|   |   |   |   |   |       password-removal-confirm-dialog.component.spec.ts
+|   |   |   |   |   |       password-removal-confirm-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   \---rotate-confirm-dialog
+|   |   |   |   |           rotate-confirm-dialog.component.html
+|   |   |   |   |           rotate-confirm-dialog.component.scss
+|   |   |   |   |           rotate-confirm-dialog.component.spec.ts
+|   |   |   |   |           rotate-confirm-dialog.component.ts
+|   |   |   |   |           
+|   |   |   |   +---custom-field-display
+|   |   |   |   |       custom-field-display.component.html
+|   |   |   |   |       custom-field-display.component.scss
+|   |   |   |   |       custom-field-display.component.spec.ts
+|   |   |   |   |       custom-field-display.component.ts
+|   |   |   |   |       
+|   |   |   |   +---custom-fields-dropdown
+|   |   |   |   |       custom-fields-dropdown.component.html
+|   |   |   |   |       custom-fields-dropdown.component.scss
+|   |   |   |   |       custom-fields-dropdown.component.spec.ts
+|   |   |   |   |       custom-fields-dropdown.component.ts
+|   |   |   |   |       
+|   |   |   |   +---custom-fields-query-dropdown
+|   |   |   |   |       custom-fields-query-dropdown.component.html
+|   |   |   |   |       custom-fields-query-dropdown.component.scss
+|   |   |   |   |       custom-fields-query-dropdown.component.spec.ts
+|   |   |   |   |       custom-fields-query-dropdown.component.ts
+|   |   |   |   |       
+|   |   |   |   +---dates-dropdown
+|   |   |   |   |       dates-dropdown.component.html
+|   |   |   |   |       dates-dropdown.component.scss
+|   |   |   |   |       dates-dropdown.component.spec.ts
+|   |   |   |   |       dates-dropdown.component.ts
+|   |   |   |   |       
+|   |   |   |   +---edit-dialog
+|   |   |   |   |   |   edit-dialog.component.spec.ts
+|   |   |   |   |   |   edit-dialog.component.ts
+|   |   |   |   |   |   
+|   |   |   |   |   +---correspondent-edit-dialog
+|   |   |   |   |   |       correspondent-edit-dialog.component.html
+|   |   |   |   |   |       correspondent-edit-dialog.component.scss
+|   |   |   |   |   |       correspondent-edit-dialog.component.spec.ts
+|   |   |   |   |   |       correspondent-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---custom-field-edit-dialog
+|   |   |   |   |   |       custom-field-edit-dialog.component.html
+|   |   |   |   |   |       custom-field-edit-dialog.component.scss
+|   |   |   |   |   |       custom-field-edit-dialog.component.spec.ts
+|   |   |   |   |   |       custom-field-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---document-type-edit-dialog
+|   |   |   |   |   |       document-type-edit-dialog.component.html
+|   |   |   |   |   |       document-type-edit-dialog.component.scss
+|   |   |   |   |   |       document-type-edit-dialog.component.spec.ts
+|   |   |   |   |   |       document-type-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---group-edit-dialog
+|   |   |   |   |   |       group-edit-dialog.component.html
+|   |   |   |   |   |       group-edit-dialog.component.scss
+|   |   |   |   |   |       group-edit-dialog.component.spec.ts
+|   |   |   |   |   |       group-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---mail-account-edit-dialog
+|   |   |   |   |   |       mail-account-edit-dialog.component.html
+|   |   |   |   |   |       mail-account-edit-dialog.component.scss
+|   |   |   |   |   |       mail-account-edit-dialog.component.spec.ts
+|   |   |   |   |   |       mail-account-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---mail-rule-edit-dialog
+|   |   |   |   |   |       mail-rule-edit-dialog.component.html
+|   |   |   |   |   |       mail-rule-edit-dialog.component.scss
+|   |   |   |   |   |       mail-rule-edit-dialog.component.spec.ts
+|   |   |   |   |   |       mail-rule-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---storage-path-edit-dialog
+|   |   |   |   |   |       storage-path-edit-dialog.component.html
+|   |   |   |   |   |       storage-path-edit-dialog.component.scss
+|   |   |   |   |   |       storage-path-edit-dialog.component.spec.ts
+|   |   |   |   |   |       storage-path-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---tag-edit-dialog
+|   |   |   |   |   |       tag-edit-dialog.component.html
+|   |   |   |   |   |       tag-edit-dialog.component.scss
+|   |   |   |   |   |       tag-edit-dialog.component.spec.ts
+|   |   |   |   |   |       tag-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---user-edit-dialog
+|   |   |   |   |   |       user-edit-dialog.component.html
+|   |   |   |   |   |       user-edit-dialog.component.scss
+|   |   |   |   |   |       user-edit-dialog.component.spec.ts
+|   |   |   |   |   |       user-edit-dialog.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   \---workflow-edit-dialog
+|   |   |   |   |           workflow-dialog.component.scss
+|   |   |   |   |           workflow-edit-dialog.component.html
+|   |   |   |   |           workflow-edit-dialog.component.scss
+|   |   |   |   |           workflow-edit-dialog.component.spec.ts
+|   |   |   |   |           workflow-edit-dialog.component.ts
+|   |   |   |   |           
+|   |   |   |   +---email-document-dialog
+|   |   |   |   |       email-document-dialog.component.html
+|   |   |   |   |       email-document-dialog.component.scss
+|   |   |   |   |       email-document-dialog.component.spec.ts
+|   |   |   |   |       email-document-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---filterable-dropdown
+|   |   |   |   |   |   filterable-dropdown.component.html
+|   |   |   |   |   |   filterable-dropdown.component.scss
+|   |   |   |   |   |   filterable-dropdown.component.spec.ts
+|   |   |   |   |   |   filterable-dropdown.component.ts
+|   |   |   |   |   |   
+|   |   |   |   |   \---toggleable-dropdown-button
+|   |   |   |   |           toggleable-dropdown-button.component.html
+|   |   |   |   |           toggleable-dropdown-button.component.scss
+|   |   |   |   |           toggleable-dropdown-button.component.spec.ts
+|   |   |   |   |           toggleable-dropdown-button.component.ts
+|   |   |   |   |           
+|   |   |   |   +---hotkey-dialog
+|   |   |   |   |       hotkey-dialog.component.html
+|   |   |   |   |       hotkey-dialog.component.scss
+|   |   |   |   |       hotkey-dialog.component.spec.ts
+|   |   |   |   |       hotkey-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---input
+|   |   |   |   |   |   abstract-input.spec.ts
+|   |   |   |   |   |   abstract-input.ts
+|   |   |   |   |   |   
+|   |   |   |   |   +---check
+|   |   |   |   |   |       check.component.html
+|   |   |   |   |   |       check.component.scss
+|   |   |   |   |   |       check.component.spec.ts
+|   |   |   |   |   |       check.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---color
+|   |   |   |   |   |       color.component.html
+|   |   |   |   |   |       color.component.scss
+|   |   |   |   |   |       color.component.spec.ts
+|   |   |   |   |   |       color.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---custom-fields-values
+|   |   |   |   |   |       custom-fields-values.component.html
+|   |   |   |   |   |       custom-fields-values.component.scss
+|   |   |   |   |   |       custom-fields-values.component.spec.ts
+|   |   |   |   |   |       custom-fields-values.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---date
+|   |   |   |   |   |       date.component.html
+|   |   |   |   |   |       date.component.scss
+|   |   |   |   |   |       date.component.spec.ts
+|   |   |   |   |   |       date.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---document-link
+|   |   |   |   |   |       document-link.component.html
+|   |   |   |   |   |       document-link.component.scss
+|   |   |   |   |   |       document-link.component.spec.ts
+|   |   |   |   |   |       document-link.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---drag-drop-select
+|   |   |   |   |   |       drag-drop-select.component.html
+|   |   |   |   |   |       drag-drop-select.component.scss
+|   |   |   |   |   |       drag-drop-select.component.spec.ts
+|   |   |   |   |   |       drag-drop-select.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---entries
+|   |   |   |   |   |       entries.component.html
+|   |   |   |   |   |       entries.component.scss
+|   |   |   |   |   |       entries.component.spec.ts
+|   |   |   |   |   |       entries.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---file
+|   |   |   |   |   |       file.component.html
+|   |   |   |   |   |       file.component.scss
+|   |   |   |   |   |       file.component.spec.ts
+|   |   |   |   |   |       file.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---monetary
+|   |   |   |   |   |       monetary.component.html
+|   |   |   |   |   |       monetary.component.scss
+|   |   |   |   |   |       monetary.component.spec.ts
+|   |   |   |   |   |       monetary.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---number
+|   |   |   |   |   |       number.component.html
+|   |   |   |   |   |       number.component.scss
+|   |   |   |   |   |       number.component.spec.ts
+|   |   |   |   |   |       number.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---password
+|   |   |   |   |   |       password.component.html
+|   |   |   |   |   |       password.component.scss
+|   |   |   |   |   |       password.component.spec.ts
+|   |   |   |   |   |       password.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---permissions
+|   |   |   |   |   |   +---permissions-form
+|   |   |   |   |   |   |       permissions-form.component.html
+|   |   |   |   |   |   |       permissions-form.component.scss
+|   |   |   |   |   |   |       permissions-form.component.spec.ts
+|   |   |   |   |   |   |       permissions-form.component.ts
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---permissions-group
+|   |   |   |   |   |   |       permissions-group.component.html
+|   |   |   |   |   |   |       permissions-group.component.scss
+|   |   |   |   |   |   |       permissions-group.component.spec.ts
+|   |   |   |   |   |   |       permissions-group.component.ts
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   \---permissions-user
+|   |   |   |   |   |           permissions-user.component.html
+|   |   |   |   |   |           permissions-user.component.scss
+|   |   |   |   |   |           permissions-user.component.spec.ts
+|   |   |   |   |   |           permissions-user.component.ts
+|   |   |   |   |   |           
+|   |   |   |   |   +---select
+|   |   |   |   |   |       select.component.html
+|   |   |   |   |   |       select.component.scss
+|   |   |   |   |   |       select.component.spec.ts
+|   |   |   |   |   |       select.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---switch
+|   |   |   |   |   |       switch.component.html
+|   |   |   |   |   |       switch.component.scss
+|   |   |   |   |   |       switch.component.spec.ts
+|   |   |   |   |   |       switch.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---tags
+|   |   |   |   |   |       tags.component.html
+|   |   |   |   |   |       tags.component.scss
+|   |   |   |   |   |       tags.component.spec.ts
+|   |   |   |   |   |       tags.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---text
+|   |   |   |   |   |       text.component.html
+|   |   |   |   |   |       text.component.scss
+|   |   |   |   |   |       text.component.spec.ts
+|   |   |   |   |   |       text.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   +---textarea
+|   |   |   |   |   |       textarea.component.html
+|   |   |   |   |   |       textarea.component.scss
+|   |   |   |   |   |       textarea.component.spec.ts
+|   |   |   |   |   |       textarea.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   \---url
+|   |   |   |   |           url.component.html
+|   |   |   |   |           url.component.scss
+|   |   |   |   |           url.component.spec.ts
+|   |   |   |   |           url.component.ts
+|   |   |   |   |           
+|   |   |   |   +---logo
+|   |   |   |   |       logo.component.html
+|   |   |   |   |       logo.component.scss
+|   |   |   |   |       logo.component.spec.ts
+|   |   |   |   |       logo.component.ts
+|   |   |   |   |       
+|   |   |   |   +---page-header
+|   |   |   |   |       page-header.component.html
+|   |   |   |   |       page-header.component.scss
+|   |   |   |   |       page-header.component.spec.ts
+|   |   |   |   |       page-header.component.ts
+|   |   |   |   |       
+|   |   |   |   +---pdf-editor
+|   |   |   |   |       pdf-editor-edit-mode.ts
+|   |   |   |   |       pdf-editor.component.html
+|   |   |   |   |       pdf-editor.component.scss
+|   |   |   |   |       pdf-editor.component.spec.ts
+|   |   |   |   |       pdf-editor.component.ts
+|   |   |   |   |       
+|   |   |   |   +---pdf-viewer
+|   |   |   |   |       pdf-viewer.component.html
+|   |   |   |   |       pdf-viewer.component.scss
+|   |   |   |   |       pdf-viewer.component.spec.ts
+|   |   |   |   |       pdf-viewer.component.ts
+|   |   |   |   |       pdf-viewer.types.ts
+|   |   |   |   |       
+|   |   |   |   +---permissions-dialog
+|   |   |   |   |       permissions-dialog.component.html
+|   |   |   |   |       permissions-dialog.component.scss
+|   |   |   |   |       permissions-dialog.component.spec.ts
+|   |   |   |   |       permissions-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---permissions-filter-dropdown
+|   |   |   |   |       permissions-filter-dropdown.component.html
+|   |   |   |   |       permissions-filter-dropdown.component.scss
+|   |   |   |   |       permissions-filter-dropdown.component.spec.ts
+|   |   |   |   |       permissions-filter-dropdown.component.ts
+|   |   |   |   |       
+|   |   |   |   +---permissions-select
+|   |   |   |   |       permissions-select.component.html
+|   |   |   |   |       permissions-select.component.scss
+|   |   |   |   |       permissions-select.component.spec.ts
+|   |   |   |   |       permissions-select.component.ts
+|   |   |   |   |       
+|   |   |   |   +---preview-popup
+|   |   |   |   |       preview-popup.component.html
+|   |   |   |   |       preview-popup.component.scss
+|   |   |   |   |       preview-popup.component.spec.ts
+|   |   |   |   |       preview-popup.component.ts
+|   |   |   |   |       
+|   |   |   |   +---profile-edit-dialog
+|   |   |   |   |       profile-edit-dialog.component.html
+|   |   |   |   |       profile-edit-dialog.component.scss
+|   |   |   |   |       profile-edit-dialog.component.spec.ts
+|   |   |   |   |       profile-edit-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---share-link-bundle-dialog
+|   |   |   |   |       share-link-bundle-dialog.component.html
+|   |   |   |   |       share-link-bundle-dialog.component.scss
+|   |   |   |   |       share-link-bundle-dialog.component.spec.ts
+|   |   |   |   |       share-link-bundle-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---share-link-bundle-manage-dialog
+|   |   |   |   |       share-link-bundle-manage-dialog.component.html
+|   |   |   |   |       share-link-bundle-manage-dialog.component.scss
+|   |   |   |   |       share-link-bundle-manage-dialog.component.spec.ts
+|   |   |   |   |       share-link-bundle-manage-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---share-links-dialog
+|   |   |   |   |       share-links-dialog.component.html
+|   |   |   |   |       share-links-dialog.component.scss
+|   |   |   |   |       share-links-dialog.component.spec.ts
+|   |   |   |   |       share-links-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---suggestions-dropdown
+|   |   |   |   |       suggestions-dropdown.component.html
+|   |   |   |   |       suggestions-dropdown.component.scss
+|   |   |   |   |       suggestions-dropdown.component.spec.ts
+|   |   |   |   |       suggestions-dropdown.component.ts
+|   |   |   |   |       
+|   |   |   |   +---system-status-dialog
+|   |   |   |   |       system-status-dialog.component.html
+|   |   |   |   |       system-status-dialog.component.scss
+|   |   |   |   |       system-status-dialog.component.spec.ts
+|   |   |   |   |       system-status-dialog.component.ts
+|   |   |   |   |       
+|   |   |   |   +---tag
+|   |   |   |   |       tag.component.html
+|   |   |   |   |       tag.component.scss
+|   |   |   |   |       tag.component.spec.ts
+|   |   |   |   |       tag.component.ts
+|   |   |   |   |       
+|   |   |   |   +---toast
+|   |   |   |   |       toast.component.html
+|   |   |   |   |       toast.component.scss
+|   |   |   |   |       toast.component.spec.ts
+|   |   |   |   |       toast.component.ts
+|   |   |   |   |       
+|   |   |   |   \---toasts
+|   |   |   |           toasts.component.html
+|   |   |   |           toasts.component.scss
+|   |   |   |           toasts.component.spec.ts
+|   |   |   |           toasts.component.ts
+|   |   |   |           
+|   |   |   +---dashboard
+|   |   |   |   |   dashboard.component.html
+|   |   |   |   |   dashboard.component.scss
+|   |   |   |   |   dashboard.component.spec.ts
+|   |   |   |   |   dashboard.component.ts
+|   |   |   |   |   
+|   |   |   |   \---widgets
+|   |   |   |       +---saved-view-widget
+|   |   |   |       |       saved-view-widget.component.html
+|   |   |   |       |       saved-view-widget.component.scss
+|   |   |   |       |       saved-view-widget.component.spec.ts
+|   |   |   |       |       saved-view-widget.component.ts
+|   |   |   |       |       
+|   |   |   |       +---statistics-widget
+|   |   |   |       |       statistics-widget.component.html
+|   |   |   |       |       statistics-widget.component.scss
+|   |   |   |       |       statistics-widget.component.spec.ts
+|   |   |   |       |       statistics-widget.component.ts
+|   |   |   |       |       
+|   |   |   |       +---upload-file-widget
+|   |   |   |       |       upload-file-widget.component.html
+|   |   |   |       |       upload-file-widget.component.scss
+|   |   |   |       |       upload-file-widget.component.spec.ts
+|   |   |   |       |       upload-file-widget.component.ts
+|   |   |   |       |       
+|   |   |   |       +---welcome-widget
+|   |   |   |       |       welcome-widget.component.html
+|   |   |   |       |       welcome-widget.component.scss
+|   |   |   |       |       welcome-widget.component.spec.ts
+|   |   |   |       |       welcome-widget.component.ts
+|   |   |   |       |       
+|   |   |   |       \---widget-frame
+|   |   |   |               widget-frame.component.html
+|   |   |   |               widget-frame.component.scss
+|   |   |   |               widget-frame.component.spec.ts
+|   |   |   |               widget-frame.component.ts
+|   |   |   |               
+|   |   |   +---document-asn
+|   |   |   |       document-asn.component.html
+|   |   |   |       document-asn.component.scss
+|   |   |   |       document-asn.component.spec.ts
+|   |   |   |       document-asn.component.ts
+|   |   |   |       
+|   |   |   +---document-detail
+|   |   |   |   |   document-detail.component.html
+|   |   |   |   |   document-detail.component.scss
+|   |   |   |   |   document-detail.component.spec.ts
+|   |   |   |   |   document-detail.component.ts
+|   |   |   |   |   
+|   |   |   |   +---document-history
+|   |   |   |   |       document-history.component.html
+|   |   |   |   |       document-history.component.scss
+|   |   |   |   |       document-history.component.spec.ts
+|   |   |   |   |       document-history.component.ts
+|   |   |   |   |       
+|   |   |   |   +---document-version-dropdown
+|   |   |   |   |       document-version-dropdown.component.html
+|   |   |   |   |       document-version-dropdown.component.scss
+|   |   |   |   |       document-version-dropdown.component.spec.ts
+|   |   |   |   |       document-version-dropdown.component.ts
+|   |   |   |   |       
+|   |   |   |   \---metadata-collapse
+|   |   |   |           metadata-collapse.component.html
+|   |   |   |           metadata-collapse.component.scss
+|   |   |   |           metadata-collapse.component.spec.ts
+|   |   |   |           metadata-collapse.component.ts
+|   |   |   |           
+|   |   |   +---document-list
+|   |   |   |   |   document-list.component.html
+|   |   |   |   |   document-list.component.scss
+|   |   |   |   |   document-list.component.spec.ts
+|   |   |   |   |   document-list.component.ts
+|   |   |   |   |   
+|   |   |   |   +---bulk-editor
+|   |   |   |   |   |   bulk-editor.component.html
+|   |   |   |   |   |   bulk-editor.component.scss
+|   |   |   |   |   |   bulk-editor.component.spec.ts
+|   |   |   |   |   |   bulk-editor.component.ts
+|   |   |   |   |   |   
+|   |   |   |   |   \---custom-fields-bulk-edit-dialog
+|   |   |   |   |           custom-fields-bulk-edit-dialog.component.html
+|   |   |   |   |           custom-fields-bulk-edit-dialog.component.scss
+|   |   |   |   |           custom-fields-bulk-edit-dialog.component.spec.ts
+|   |   |   |   |           custom-fields-bulk-edit-dialog.component.ts
+|   |   |   |   |           
+|   |   |   |   +---document-card-large
+|   |   |   |   |       document-card-large.component.html
+|   |   |   |   |       document-card-large.component.scss
+|   |   |   |   |       document-card-large.component.spec.ts
+|   |   |   |   |       document-card-large.component.ts
+|   |   |   |   |       
+|   |   |   |   +---document-card-small
+|   |   |   |   |       document-card-small.component.html
+|   |   |   |   |       document-card-small.component.scss
+|   |   |   |   |       document-card-small.component.spec.ts
+|   |   |   |   |       document-card-small.component.ts
+|   |   |   |   |       
+|   |   |   |   +---filter-editor
+|   |   |   |   |       filter-editor.component.html
+|   |   |   |   |       filter-editor.component.scss
+|   |   |   |   |       filter-editor.component.spec.ts
+|   |   |   |   |       filter-editor.component.ts
+|   |   |   |   |       
+|   |   |   |   \---save-view-config-dialog
+|   |   |   |           save-view-config-dialog.component.html
+|   |   |   |           save-view-config-dialog.component.scss
+|   |   |   |           save-view-config-dialog.component.spec.ts
+|   |   |   |           save-view-config-dialog.component.ts
+|   |   |   |           
+|   |   |   +---document-notes
+|   |   |   |       document-notes.component.html
+|   |   |   |       document-notes.component.scss
+|   |   |   |       document-notes.component.spec.ts
+|   |   |   |       document-notes.component.ts
+|   |   |   |       
+|   |   |   +---file-drop
+|   |   |   |       file-drop.component.html
+|   |   |   |       file-drop.component.scss
+|   |   |   |       file-drop.component.spec.ts
+|   |   |   |       file-drop.component.ts
+|   |   |   |       
+|   |   |   +---loading-component
+|   |   |   |       loading.component.spec.ts
+|   |   |   |       loading.component.ts
+|   |   |   |       
+|   |   |   +---manage
+|   |   |   |   +---document-attributes
+|   |   |   |   |   |   document-attributes.component.html
+|   |   |   |   |   |   document-attributes.component.scss
+|   |   |   |   |   |   document-attributes.component.spec.ts
+|   |   |   |   |   |   document-attributes.component.ts
+|   |   |   |   |   |   
+|   |   |   |   |   +---custom-fields
+|   |   |   |   |   |       custom-fields.component.html
+|   |   |   |   |   |       custom-fields.component.scss
+|   |   |   |   |   |       custom-fields.component.spec.ts
+|   |   |   |   |   |       custom-fields.component.ts
+|   |   |   |   |   |       
+|   |   |   |   |   \---management-list
+|   |   |   |   |       |   management-list.component.html
+|   |   |   |   |       |   management-list.component.scss
+|   |   |   |   |       |   management-list.component.spec.ts
+|   |   |   |   |       |   management-list.component.ts
+|   |   |   |   |       |   
+|   |   |   |   |       +---correspondent-list
+|   |   |   |   |       |       correspondent-list.component.spec.ts
+|   |   |   |   |       |       correspondent-list.component.ts
+|   |   |   |   |       |       
+|   |   |   |   |       +---document-type-list
+|   |   |   |   |       |       document-type-list.component.spec.ts
+|   |   |   |   |       |       document-type-list.component.ts
+|   |   |   |   |       |       
+|   |   |   |   |       +---storage-path-list
+|   |   |   |   |       |       storage-path-list.component.spec.ts
+|   |   |   |   |       |       storage-path-list.component.ts
+|   |   |   |   |       |       
+|   |   |   |   |       \---tag-list
+|   |   |   |   |               tag-list.component.spec.ts
+|   |   |   |   |               tag-list.component.ts
+|   |   |   |   |               
+|   |   |   |   +---mail
+|   |   |   |   |   |   mail.component.html
+|   |   |   |   |   |   mail.component.scss
+|   |   |   |   |   |   mail.component.spec.ts
+|   |   |   |   |   |   mail.component.ts
+|   |   |   |   |   |   
+|   |   |   |   |   \---processed-mail-dialog
+|   |   |   |   |           processed-mail-dialog.component.html
+|   |   |   |   |           processed-mail-dialog.component.scss
+|   |   |   |   |           processed-mail-dialog.component.spec.ts
+|   |   |   |   |           processed-mail-dialog.component.ts
+|   |   |   |   |           
+|   |   |   |   +---saved-views
+|   |   |   |   |       saved-views.component.html
+|   |   |   |   |       saved-views.component.scss
+|   |   |   |   |       saved-views.component.spec.ts
+|   |   |   |   |       saved-views.component.ts
+|   |   |   |   |       
+|   |   |   |   \---workflows
+|   |   |   |           workflows.component.html
+|   |   |   |           workflows.component.scss
+|   |   |   |           workflows.component.spec.ts
+|   |   |   |           workflows.component.ts
+|   |   |   |           
+|   |   |   +---not-found
+|   |   |   |       not-found.component.html
+|   |   |   |       not-found.component.scss
+|   |   |   |       not-found.component.spec.ts
+|   |   |   |       not-found.component.ts
+|   |   |   |       
+|   |   |   \---with-permissions
+|   |   |           with-permissions.component.spec.ts
+|   |   |           with-permissions.component.ts
+|   |   |           
+|   |   +---data
+|   |   |       auditlog-entry.ts
+|   |   |       correspondent.ts
+|   |   |       custom-field-instance.ts
+|   |   |       custom-field-query.ts
+|   |   |       custom-field.ts
+|   |   |       datatype.ts
+|   |   |       document-metadata.ts
+|   |   |       document-note.ts
+|   |   |       document-suggestions.ts
+|   |   |       document-type.ts
+|   |   |       document.ts
+|   |   |       filter-rule-type.ts
+|   |   |       filter-rule.ts
+|   |   |       group.ts
+|   |   |       mail-account.ts
+|   |   |       mail-rule.ts
+|   |   |       matching-model.ts
+|   |   |       object-with-id.ts
+|   |   |       object-with-permissions.ts
+|   |   |       paperless-config.ts
+|   |   |       paperless-task.ts
+|   |   |       processed-mail.ts
+|   |   |       results.ts
+|   |   |       saved-view.ts
+|   |   |       share-link-bundle.ts
+|   |   |       share-link.ts
+|   |   |       storage-keys.ts
+|   |   |       storage-path.ts
+|   |   |       system-status.ts
+|   |   |       tag.ts
+|   |   |       ui-settings.ts
+|   |   |       user-profile.ts
+|   |   |       user.ts
+|   |   |       websocket-document-updated-message.ts
+|   |   |       websocket-documents-deleted-message.ts
+|   |   |       websocket-progress-message.ts
+|   |   |       workflow-action.ts
+|   |   |       workflow-trigger.ts
+|   |   |       workflow.ts
+|   |   |       
+|   |   +---directives
+|   |   |       if-object-permissions.directive.spec.ts
+|   |   |       if-object-permissions.directive.ts
+|   |   |       if-owner.directive.spec.ts
+|   |   |       if-owner.directive.ts
+|   |   |       if-permissions.directive.spec.ts
+|   |   |       if-permissions.directive.ts
+|   |   |       sortable.directive.spec.ts
+|   |   |       sortable.directive.ts
+|   |   |       
+|   |   +---guards
+|   |   |       dirty-doc.guard.spec.ts
+|   |   |       dirty-doc.guard.ts
+|   |   |       dirty-form.guard.spec.ts
+|   |   |       dirty-form.guard.ts
+|   |   |       dirty-saved-view.guard.spec.ts
+|   |   |       dirty-saved-view.guard.ts
+|   |   |       permissions.guard.spec.ts
+|   |   |       permissions.guard.ts
+|   |   |       
+|   |   +---interceptors
+|   |   |       api-version.interceptor.spec.ts
+|   |   |       api-version.interceptor.ts
+|   |   |       auth-expiry.interceptor.spec.ts
+|   |   |       auth-expiry.interceptor.ts
+|   |   |       csrf.interceptor.spec.ts
+|   |   |       csrf.interceptor.ts
+|   |   |       
+|   |   +---pipes
+|   |   |       correspondent-name.pipe.spec.ts
+|   |   |       correspondent-name.pipe.ts
+|   |   |       custom-date.pipe.spec.ts
+|   |   |       custom-date.pipe.ts
+|   |   |       document-title.pipe.spec.ts
+|   |   |       document-title.pipe.ts
+|   |   |       document-type-name.pipe.spec.ts
+|   |   |       document-type-name.pipe.ts
+|   |   |       file-size.pipe.spec.ts
+|   |   |       file-size.pipe.ts
+|   |   |       filter.pipe.spec.ts
+|   |   |       filter.pipe.ts
+|   |   |       is-number.pipe.spec.ts
+|   |   |       is-number.pipe.ts
+|   |   |       object-name.pipe.spec.ts
+|   |   |       object-name.pipe.ts
+|   |   |       safeurl.pipe.spec.ts
+|   |   |       safeurl.pipe.ts
+|   |   |       storage-path-name.pipe.spec.ts
+|   |   |       storage-path-name.pipe.ts
+|   |   |       username.pipe.spec.ts
+|   |   |       username.pipe.ts
+|   |   |       yes-no.pipe.spec.ts
+|   |   |       yes-no.pipe.ts
+|   |   |       
+|   |   +---services
+|   |   |   |   chat.service.spec.ts
+|   |   |   |   chat.service.ts
+|   |   |   |   component-router.service.spec.ts
+|   |   |   |   component-router.service.ts
+|   |   |   |   config.service.spec.ts
+|   |   |   |   config.service.ts
+|   |   |   |   django-messages.service.spec.ts
+|   |   |   |   django-messages.service.ts
+|   |   |   |   document-list-view.service.spec.ts
+|   |   |   |   document-list-view.service.ts
+|   |   |   |   hot-key.service.spec.ts
+|   |   |   |   hot-key.service.ts
+|   |   |   |   open-documents.service.spec.ts
+|   |   |   |   open-documents.service.ts
+|   |   |   |   permissions.service.spec.ts
+|   |   |   |   permissions.service.ts
+|   |   |   |   profile.service.spec.ts
+|   |   |   |   profile.service.ts
+|   |   |   |   settings.service.spec.ts
+|   |   |   |   settings.service.ts
+|   |   |   |   system-status.service.spec.ts
+|   |   |   |   system-status.service.ts
+|   |   |   |   tasks.service.spec.ts
+|   |   |   |   tasks.service.ts
+|   |   |   |   toast.service.spec.ts
+|   |   |   |   toast.service.ts
+|   |   |   |   trash.service.spec.ts
+|   |   |   |   trash.service.ts
+|   |   |   |   upload-documents.service.spec.ts
+|   |   |   |   upload-documents.service.ts
+|   |   |   |   websocket-status.service.spec.ts
+|   |   |   |   websocket-status.service.ts
+|   |   |   |   
+|   |   |   \---rest
+|   |   |           abstract-name-filter-service.spec.ts
+|   |   |           abstract-name-filter-service.ts
+|   |   |           abstract-paperless-service.spec.ts
+|   |   |           abstract-paperless-service.ts
+|   |   |           correspondent.service.spec.ts
+|   |   |           correspondent.service.ts
+|   |   |           custom-fields.service.spec.ts
+|   |   |           custom-fields.service.ts
+|   |   |           document-notes.service.spec.ts
+|   |   |           document-notes.service.ts
+|   |   |           document-type.service.spec.ts
+|   |   |           document-type.service.ts
+|   |   |           document.service.spec.ts
+|   |   |           document.service.ts
+|   |   |           group.service.spec.ts
+|   |   |           group.service.ts
+|   |   |           log.service.spec.ts
+|   |   |           log.service.ts
+|   |   |           mail-account.service.spec.ts
+|   |   |           mail-account.service.ts
+|   |   |           mail-rule.service.spec.ts
+|   |   |           mail-rule.service.ts
+|   |   |           processed-mail.service.spec.ts
+|   |   |           processed-mail.service.ts
+|   |   |           remote-version.service.spec.ts
+|   |   |           remote-version.service.ts
+|   |   |           saved-view.service.spec.ts
+|   |   |           saved-view.service.ts
+|   |   |           search.service.spec.ts
+|   |   |           search.service.ts
+|   |   |           share-link-bundle.service.spec.ts
+|   |   |           share-link-bundle.service.ts
+|   |   |           share-link.service.spec.ts
+|   |   |           share-link.service.ts
+|   |   |           storage-path.service.spec.ts
+|   |   |           storage-path.service.ts
+|   |   |           tag.service.spec.ts
+|   |   |           tag.service.ts
+|   |   |           user.service.spec.ts
+|   |   |           user.service.ts
+|   |   |           workflow.service.spec.ts
+|   |   |           workflow.service.ts
+|   |   |           
+|   |   \---utils
+|   |           color.spec.ts
+|   |           color.ts
+|   |           custom-field-query-element.spec.ts
+|   |           custom-field-query-element.ts
+|   |           filter-rules.spec.ts
+|   |           filter-rules.ts
+|   |           flatten-tags.spec.ts
+|   |           flatten-tags.ts
+|   |           http.spec.ts
+|   |           http.ts
+|   |           navigation.ts
+|   |           ngb-date-parser-formatter.spec.ts
+|   |           ngb-date-parser-formatter.ts
+|   |           ngb-iso-date-adapter.spec.ts
+|   |           ngb-iso-date-adapter.ts
+|   |           popper-options.spec.ts
+|   |           popper-options.ts
+|   |           query-params.spec.ts
+|   |           query-params.ts
+|   |           text-search.spec.ts
+|   |           text-search.ts
+|   |           
+|   +---assets
+|   |       .gitkeep
+|   |       document.png
+|   |       logo-dark-notext.svg
+|   |       logo-dark.svg
+|   |       logo-notext.svg
+|   |       logo-white-notext.svg
+|   |       logo.svg
+|   |       
+|   +---environments
+|   |       environment.prod.ts
+|   |       environment.ts
+|   |       
+|   +---locale
+|   |       messages.af_ZA.xlf
+|   |       messages.ar_AR.xlf
+|   |       messages.be_BY.xlf
+|   |       messages.bg_BG.xlf
+|   |       messages.ca_ES.xlf
+|   |       messages.cs_CZ.xlf
+|   |       messages.da_DK.xlf
+|   |       messages.de_DE.xlf
+|   |       messages.el_GR.xlf
+|   |       messages.en_GB.xlf
+|   |       messages.en_US.xlf
+|   |       messages.es_ES.xlf
+|   |       messages.et_EE.xlf
+|   |       messages.fa_IR.xlf
+|   |       messages.fi_FI.xlf
+|   |       messages.fr_FR.xlf
+|   |       messages.he_IL.xlf
+|   |       messages.hi_IN.xlf
+|   |       messages.hr_HR.xlf
+|   |       messages.hu_HU.xlf
+|   |       messages.id_ID.xlf
+|   |       messages.it_IT.xlf
+|   |       messages.ja_JP.xlf
+|   |       messages.km_KH.xlf
+|   |       messages.ko_KR.xlf
+|   |       messages.lb_LU.xlf
+|   |       messages.lt_LT.xlf
+|   |       messages.lv_LV.xlf
+|   |       messages.mk_MK.xlf
+|   |       messages.ms_MY.xlf
+|   |       messages.nl_NL.xlf
+|   |       messages.no_NO.xlf
+|   |       messages.pl_PL.xlf
+|   |       messages.pt_BR.xlf
+|   |       messages.pt_PT.xlf
+|   |       messages.ro_RO.xlf
+|   |       messages.ru_RU.xlf
+|   |       messages.sk_SK.xlf
+|   |       messages.sl_SI.xlf
+|   |       messages.sq_AL.xlf
+|   |       messages.sr_CS.xlf
+|   |       messages.sv_SE.xlf
+|   |       messages.th_TH.xlf
+|   |       messages.tr_TR.xlf
+|   |       messages.uk_UA.xlf
+|   |       messages.vi_VN.xlf
+|   |       messages.xh_ZA.xlf
+|   |       messages.zh_CN.xlf
+|   |       messages.zh_TW.xlf
+|   |       
+|   \---test
+|       \---mocks
+|               pdfjs-legacy-build-pdf.ts
+|               pdfjs-web-pdf_viewer.ts
+|               
+\---__mocks__
+        pdfjs-dist.ts
+        

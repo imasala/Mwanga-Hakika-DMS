@@ -1,0 +1,12 @@
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\document-list-view.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\document-list-view.service.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\open-documents.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\open-documents.service.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\upload-documents.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\upload-documents.service.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\rest\document-notes.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\rest\document-notes.service.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\rest\document-type.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\rest\document-type.service.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\rest\document.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\rest\document.service.ts

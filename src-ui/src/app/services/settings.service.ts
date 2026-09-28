@@ -405,6 +405,11 @@ export class SettingsService {
       if (field.id === DisplayField.OWNER) {
         type = PermissionType.User
       }
+
+      if (!type) {
+        return field
+      }
+
       return this.permissionsService.currentUserCan(PermissionAction.View, type)
         ? field
         : null

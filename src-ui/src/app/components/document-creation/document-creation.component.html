@@ -1,0 +1,228 @@
+<div class="document-creation-container">
+  <div class="page-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-1">
+        <i-bs name="file-earmark-plus" class="me-2"></i-bs>
+        Document Creation
+      </h2>
+
+      <p class="text-muted mb-0">
+        Create a new document.
+      </p>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="newDocument()"
+      >
+        <i-bs name="file-earmark-plus" class="me-2"></i-bs>
+        New Document
+      </button>
+
+     <button
+        type="button"
+        class="btn btn-primary"
+        (click)="generatePdf()"
+      >
+        <i-bs name="file-earmark-plus" class="me-2"></i-bs>
+        Generate PDF
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        [disabled]="!generatedPdfUrl"
+        (click)="printPdf()"
+      >
+        <i-bs name="printer" class="me-2"></i-bs>
+        Print
+      </button>
+    </div>
+  </div>
+
+  <div class="editor-container">
+
+    <!-- Toolbar -->
+    <div class="editor-toolbar">
+
+      <div class="toolbar-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Paragraph"
+          (click)="setParagraph()"
+        >
+          P
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Heading 1"
+          (click)="setHeading(1)"
+        >
+          H1
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Heading 2"
+          (click)="setHeading(2)"
+        >
+          H2
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Heading 3"
+          (click)="setHeading(3)"
+        >
+          H3
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="toolbar-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Bold"
+          (click)="toggleBold()"
+        >
+          <strong>B</strong>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Italic"
+          (click)="toggleItalic()"
+        >
+          <em>I</em>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Underline"
+          (click)="toggleUnderline()"
+        >
+          <u>U</u>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Link"
+          (click)="setLink()"
+        >
+          <i-bs name="link-45deg"></i-bs>
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="toolbar-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Align left"
+          (click)="setTextAlign('left')"
+        >
+          <i-bs name="text-left"></i-bs>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Align center"
+          (click)="setTextAlign('center')"
+        >
+          <i-bs name="text-center"></i-bs>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Align right"
+          (click)="setTextAlign('right')"
+        >
+          <i-bs name="text-right"></i-bs>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Justify"
+          (click)="setTextAlign('justify')"
+        >
+          <i-bs name="justify"></i-bs>
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="toolbar-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Bullet list"
+          (click)="toggleBulletList()"
+        >
+          <i-bs name="list-ul"></i-bs>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Numbered list"
+          (click)="toggleOrderedList()"
+        >
+          <i-bs name="list-ol"></i-bs>
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="toolbar-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Undo"
+          (click)="undo()"
+        >
+          <i-bs name="arrow-counterclockwise"></i-bs>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-light"
+          title="Redo"
+          (click)="redo()"
+        >
+          <i-bs name="arrow-clockwise"></i-bs>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- A4 document -->
+    <div class="document-workspace">
+      <div class="document-page">
+      <div
+          class="tiptap-editor"
+          [contentEditable]="true"
+          #editorElement
+          (keydown)="$event.stopPropagation()"
+          (keyup)="$event.stopPropagation()"
+        ></div>
+      </div>
+    </div>
+
+  </div>
+</div>

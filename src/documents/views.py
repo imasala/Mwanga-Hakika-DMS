@@ -21,6 +21,11 @@ from unicodedata import normalize
 from urllib.parse import quote
 from urllib.parse import urlparse
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from documents.document_creation import generate_pdf_from_html
+
 import httpx
 import magic
 import pathvalidate
@@ -5205,6 +5210,79 @@ class SystemStatusView(PassUserMixin):
             },
         )
 
+class CreateDocumentFromHtmlView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        html = request.data.get("html")
+
+        if not html:
+            return Response(
+                {"error": "HTML content is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            pdf_content = generate_pdf_from_html(html)
+
+            response = HttpResponse(
+                pdf_content,
+                content_type="application/pdf",
+            )
+
+            response["Content-Disposition"] = (
+                'attachment; filename="generated_document.pdf"'
+            )
+
+            return response
+
+        except Exception as e:
+            return Response(
+                {
+                    "error": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+class CreateDocumentFromHtmlView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        html_content = request.data.get("html")
+
+        if not html_content:
+            return Response(
+                {"error": "HTML content is required."},
+                status=400,
+            )
+
+        output_path = (
+            Path(tempfile.gettempdir())
+            / "generated-document.pdf"
+        )
+
+        try:
+            generate_pdf_from_html(
+                html_content,
+                output_path,
+            )
+
+            return FileResponse(
+                output_path.open("rb"),
+                content_type="application/pdf",
+                as_attachment=True,
+                filename="generated-document.pdf",
+            )
+
+        except Exception as e:
+            logging.exception(
+                "Failed to generate PDF document",
+            )
+
+            return Response(
+                {"error": str(e)},
+                status=500,
+            )
 
 class TrashView(ListModelMixin, PassUserMixin):
     permission_classes = (IsAuthenticated,)

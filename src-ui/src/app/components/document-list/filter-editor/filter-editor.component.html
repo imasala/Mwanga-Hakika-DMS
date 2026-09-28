@@ -97,6 +97,17 @@
           [(addedDateFrom)]="dateAddedFrom"
           [(addedRelativeDate)]="dateAddedRelativeDate">
         </pngx-dates-dropdown>
+        <pngx-expiry-dropdown
+            class="flex-fill fade"
+            [class.show]="show()"
+            title="Expiry"
+            placement="bottom-end"
+            (expirySet)="updateRules()"
+            [(expiryDateTo)]="dateExpiryTo"
+            [(expiryDateFrom)]="dateExpiryFrom"
+            [(expiryIsNull)]="expiryIsNull"
+          >
+          </pngx-expiry-dropdown>
         <pngx-permissions-filter-dropdown class="flex-fill fade" [class.show]="show()"
           title="Permissions" i18n-title
           (ownerFilterSet)="updateRules()"

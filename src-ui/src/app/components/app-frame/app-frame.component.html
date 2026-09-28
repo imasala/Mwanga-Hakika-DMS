@@ -8,17 +8,19 @@
     [ngClass]="{ 'slim': slimSidebarEnabled, 'col-auto col-md-3 col-lg-2 col-xxxl-1' : !slimSidebarEnabled, 'py-3' : !customAppTitle?.length || slimSidebarEnabled, 'py-2': customAppTitle?.length }"
     routerLink="/dashboard"
     tourAnchor="tour.intro">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1.5em" height="1.5em" fill="currentColor">
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1.5em" height="1.5em" fill="currentColor">
       <path d="M341,949.1c-6.9-20.3-20.7-61.2-21.9-61-199.6-88.9-182.5-229.8-134.3-347.5,30,137.2,268.8,148.9,146.2,336-.9,2.2,10,27.8,19.5,51.3,22.7-51.9,58.6-115.5,55.8-120.8C178,398.7,724.9,299,807.1,18.5c83,251.5,53.1,659.8-377.4,814.9-2,1.4-63.5,148.6-66.9,150.2-.2-2.1-33.2,2.9-30.1-8.7,1.6-7,4.8-16.2,8.2-25.6h0v-.2h.1ZM323.1,846.2c48.3-71.9-12.7-120.8-56.9-152.2,81.2,107.4,66.4,120.8,56.9,152.2h0Z"/>
-    </svg>
+    </svg> --> 
+    <img src="assets/logo-dark.svg" width="100em" height="30em" />
+    <!-- Changing images -->
     <div class="ms-2 ms-md-3 d-inline-block" [class.d-md-none]="slimSidebarEnabled">
       @if (customAppTitle?.length) {
         <div class="d-flex flex-column align-items-start custom-title">
           <span class="title">{{customAppTitle}}</span>
-          <span class="byline text-uppercase font-monospace" i18n>by Paperless-ngx</span>
+          <span class="byline text-uppercase font-monospace" i18n>by Mwanga Hakika Bank</span>
         </div>
       } @else {
-        Paperless-ngx
+        Mwanga Hakika DMS
       }
     </div>
   </a>
@@ -95,6 +97,15 @@
               <i-bs class="me-2" name="files"></i-bs><span><ng-container i18n>Documents</ng-container></span>
             </a>
           </li>
+	<!-- <li class="nav-item app-link">
+  <a class="nav-link" routerLink="document-creation" routerLinkActive="active" (click)="closeMenu()"
+    ngbPopover="Document Creation" i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end"
+    container="body" triggers="mouseenter:mouseleave" popoverClass="popover-slim">
+    <i-bs class="me-2" name="file-earmark-plus"></i-bs>
+    <span><ng-container i18n>Document Creation</ng-container></span>
+  </a>
+  Document Creation link is commented out because it is not implemented yet. It can be uncommented when the feature is ready.
+</li> --> 
         </ul>
 
         <div class="nav-group mt-3 mb-1" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }">
@@ -332,12 +343,12 @@
                 @if (!settingsService.updateCheckingIsSet || appRemoteVersion()) {
                   <div class="version-check">
                     <ng-template #updateAvailablePopContent>
-                      <span class="small">Paperless-ngx {{ appRemoteVersion().version }} <ng-container i18n>is
+                      <span class="small">Mwanga Hakika DMS {{ appRemoteVersion().version }} <ng-container i18n>is
                           available.</ng-container><br /><ng-container i18n>Click to view.</ng-container></span>
                     </ng-template>
                     <ng-template #updateCheckingNotEnabledPopContent>
                       <p class="small mb-2">
-                        <ng-container i18n>Paperless-ngx can automatically check for updates</ng-container>
+                        <ng-container i18n>Mwanga Hakika DMS can automatically check for updates</ng-container>
                       </p>
                       <div class="btn-group btn-group-xs flex-fill w-100">
                         <button class="btn btn-outline-primary" (click)="setUpdateChecking(true)">Enable</button>

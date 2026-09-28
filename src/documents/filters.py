@@ -11,6 +11,8 @@ from decimal import InvalidOperation
 from typing import TYPE_CHECKING
 from typing import Any
 
+from paperless.models import UserRole
+
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import FieldError
 from django.db.models import Case
@@ -840,6 +842,11 @@ class DocumentFilterSet(FilterSet):
     created__date__lt = DateFilter(field_name="created", lookup_expr="lt")
     created__date__lte = DateFilter(field_name="created", lookup_expr="lte")
 
+    expiry_date__isnull = BooleanFilter(
+        field_name="expiry_date",
+        lookup_expr="isnull",
+    )
+
     class Meta:
         model = Document
         fields = {
@@ -847,6 +854,7 @@ class DocumentFilterSet(FilterSet):
             "title": CHAR_KWARGS,
             "archive_serial_number": INT_KWARGS,
             "created": DATE_KWARGS,
+            "expiry_date": DATE_KWARGS,
             "added": DATETIME_KWARGS,
             "modified": DATETIME_KWARGS,
             "original_filename": CHAR_KWARGS,
@@ -865,6 +873,11 @@ class DocumentFilterSet(FilterSet):
             "owner": ["isnull"],
             "owner__id": ID_KWARGS,
             "custom_fields": ["icontains"],
+
+            "service_provider": CHAR_KWARGS,
+            "service_type": CHAR_KWARGS,
+            "department": CHAR_KWARGS,
+            "tenure": CHAR_KWARGS,
         }
 
 
@@ -1017,10 +1030,109 @@ class ObjectOwnedOrGrantedPermissionsFilter(ObjectPermissionsFilter):
     """
 
     def filter_queryset(self, request, queryset, view):
-        objects_with_perms = super().filter_queryset(request, queryset, view)
-        objects_owned = queryset.filter(owner=request.user)
+        user = request.user
+
+        # Superuser can access everything
+        if user.is_superuser:
+            return queryset
+
+        # --------------------------------------------------
+        # 1. Existing Paperless permission access
+        # --------------------------------------------------
+        objects_with_perms = super().filter_queryset(
+            request,
+            queryset,
+            view,
+        )
+
+        # --------------------------------------------------
+        # 2. Document owner access
+        # --------------------------------------------------
+        objects_owned = queryset.filter(owner=user)
+
+        # --------------------------------------------------
+        # 3. Existing unowned document access
+        # --------------------------------------------------
         objects_unowned = queryset.filter(owner__isnull=True)
-        return objects_with_perms | objects_owned | objects_unowned
+
+        # --------------------------------------------------
+        # 4. Existing Group + Role access
+        #
+        # Preserve the existing workflow-based access:
+        # - User belongs to one of the document's allowed groups
+        # - User has an allowed role (or a lower role according
+        #   to the existing hierarchy)
+        # --------------------------------------------------
+
+        try:
+            user_role = user.role_profile.role
+        except UserRole.DoesNotExist:
+            user_role = None
+
+        group_role_documents = queryset.none()
+        hierarchical_role_documents = queryset.none()
+
+        if user_role:
+            role_hierarchy = [
+                UserRole.Role.ADMIN,
+                UserRole.Role.HEAD,
+                UserRole.Role.MANAGER,
+                UserRole.Role.ASSISTANT_MANAGER,
+                UserRole.Role.SENIOR_OFFICER,
+                UserRole.Role.OFFICER,
+            ]
+
+            # ----------------------------------------------
+            # Existing allowed-groups / allowed-roles access
+            # ----------------------------------------------
+            user_role_index = role_hierarchy.index(user_role)
+            accessible_roles = role_hierarchy[user_role_index:]
+
+            role_query = Q()
+
+            for role in accessible_roles:
+                role_query |= Q(allowed_roles__contains=role)
+
+            group_role_documents = queryset.filter(
+                allowed_groups__in=user.groups.all(),
+            ).filter(role_query)
+
+            # ----------------------------------------------
+            # Role hierarchy access
+            #
+            # A user can view a document when:
+            # 1. The document has an owner
+            # 2. Viewer and owner share a group
+            # 3. Viewer has an equal or higher role
+            # ----------------------------------------------
+            user_role_level = len(role_hierarchy) - user_role_index
+
+            owner_role_query = Q()
+
+            for index, role in enumerate(role_hierarchy):
+                owner_role_level = len(role_hierarchy) - index
+
+                if user_role_level >= owner_role_level:
+                    owner_role_query |= Q(
+                        owner__role_profile__role=role,
+                        owner__groups__in=user.groups.all(),
+                    )
+
+            hierarchical_role_documents = queryset.filter(
+                owner__isnull=False,
+            ).filter(owner_role_query)
+
+        # --------------------------------------------------
+        # Combine all allowed access methods
+        # --------------------------------------------------
+
+        return (
+            objects_with_perms
+            | objects_owned
+            | objects_unowned
+            | group_role_documents
+            | hierarchical_role_documents
+        ).distinct()
 
 
 class ObjectOwnedPermissionsFilter(ObjectPermissionsFilter):

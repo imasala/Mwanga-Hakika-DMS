@@ -1,23 +1,46 @@
 @use "sass:color";
 @mixin paperless-green {
-  // base color e.g. #17541f = hsl(128, 57%, 21%)
-  --pngx-primary: 128, 57%;
-  --pngx-primary-lightness: 21%;
+  --pngx-primary: 197, 100%;
+  --pngx-primary-lightness: 44%;
 }
+// Banking Primary Colors
 
 :root {
   @include paperless-green;
   --pngx-primary-text-contrast: var(--bs-light);
 
+  --pngx-accent: #e47a2f; //Added another color
+
   --bs-primary: hsl(var(--pngx-primary), var(--pngx-primary-lightness));
   --bs-border-color: var(--bs-gray-400);
-  --pngx-primary-faded: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) + 76%));
-  --pngx-primary-lighten-10: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) + 10%));
-  --pngx-primary-lighten-30: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) + 30%));
-  --pngx-primary-darken-5: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) - 5%));
-  --pngx-primary-darken-15: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) - 15%));
-  --pngx-primary-darken-18: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) - 18%));
-  --pngx-primary-darken-27: hsl(var(--pngx-primary), calc(var(--pngx-primary-lightness) - 27%));
+  --pngx-primary-faded: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) + 76%)
+  );
+  --pngx-primary-lighten-10: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) + 10%)
+  );
+  --pngx-primary-lighten-30: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) + 30%)
+  );
+  --pngx-primary-darken-5: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) - 5%)
+  );
+  --pngx-primary-darken-15: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) - 15%)
+  );
+  --pngx-primary-darken-18: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) - 18%)
+  );
+  --pngx-primary-darken-27: hsl(
+    var(--pngx-primary),
+    calc(var(--pngx-primary-lightness) - 27%)
+  );
   --pngx-success-darken-10: hsl(152, 69%, 11%); // based on success #198754
   --pngx-bg-alt: #fff;
   --pngx-bg-darker: var(--bs-gray-100);
@@ -44,11 +67,11 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
   --pngx-primary-text-contrast: #{$text-color-light-bg} !important;
 
   .form-check:not(.form-switch) {
-    .form-check-input:checked[type=checkbox] {
+    .form-check-input:checked[type="checkbox"] {
       background-image: escape-svg($form-check-input-checked-bg-image-dark);
     }
 
-    .form-check-input:checked[type=radio] {
+    .form-check-input:checked[type="radio"] {
       background-image: escape-svg($form-check-radio-checked-bg-image-dark);
     }
   }
@@ -69,7 +92,7 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
 // Dark mode
 @mixin paperless-green-dark-mode {
   --pngx-primary-lightness: 31%;
-  --bs-primary: hsl(var(--pngx-primary),var(--pngx-primary-lightness));
+  --bs-primary: hsl(var(--pngx-primary), var(--pngx-primary-lightness));
 }
 
 @mixin dark-mode {
@@ -95,9 +118,10 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
   --bs-border-color: #47494f;
   --bs-tertiary-bg: var(--pngx-bg-darker);
   --bs-dark-border-subtle: var(--pngx-bg-darker);
-  --bs-border-color-translucent: rgba(0, 0, 0, .175); // override bs
+  --bs-border-color-translucent: rgba(0, 0, 0, 0.175); // override bs
 
-  .text-dark, .text-light {
+  .text-dark,
+  .text-light {
     color: var(--bs-body-color) !important;
   }
 
@@ -109,13 +133,19 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
   }
 
   .btn-primary {
-    &:hover, &:focus, &.active, &:active {
+    &:hover,
+    &:focus,
+    &.active,
+    &:active {
       color: var(--bs-body-color) !important;
     }
   }
 
   &.primary-light .btn-primary {
-    &:hover, &:focus, &.active, &:active {
+    &:hover,
+    &:focus,
+    &.active,
+    &:active {
       color: var(--pngx-bg-darker) !important;
     }
   }
@@ -130,13 +160,19 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
   }
 
   .btn-outline-primary {
-    &:hover, &:focus, &.active, &:active {
+    &:hover,
+    &:focus,
+    &.active,
+    &:active {
       color: var(--bs-light) !important;
     }
   }
 
   .btn-outline-secondary {
-    &:hover, &:focus, &.active, &:active {
+    &:hover,
+    &:focus,
+    &.active,
+    &:active {
       background-color: var(--pngx-bg-darker);
       color: var(--pngx-body-color-accent) !important;
     }
@@ -156,11 +192,14 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
   }
 
   .form-control:hover::file-selector-button {
-    background-color:var(--pngx-bg-dark) !important
+    background-color: var(--pngx-bg-dark) !important;
   }
 
   .search-container {
-    input, input:focus, i-bs[name="search"] , ::placeholder {
+    input,
+    input:focus,
+    i-bs[name="search"],
+    ::placeholder {
       color: var(--pngx-primary-text-contrast) !important;
     }
   }
@@ -174,21 +213,25 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
     }
   }
 
-  .row-cols-paperless-cards .card, pngx-document-card-large .card {
-    --bs-border-color-translucent: rgba(0, 0, 0, .3);
+  .row-cols-paperless-cards .card,
+  pngx-document-card-large .card {
+    --bs-border-color-translucent: rgba(0, 0, 0, 0.3);
   }
 
-  .modal-content, .modal-header, .modal-body, .modal-footer {
+  .modal-content,
+  .modal-header,
+  .modal-body,
+  .modal-footer {
     background-color: var(--bs-body-bg);
     border-color: var(--bs-border-color);
   }
 
   app-tag .badge {
-    filter: brightness(.8);
+    filter: brightness(0.8);
   }
 
   .badge.bg-light.border {
-    border-color: rgba(0,0,0,0) !important;
+    border-color: rgba(0, 0, 0, 0) !important;
   }
 
   .badge.bg-body {
@@ -219,8 +262,15 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
     mix-blend-mode: luminosity;
   }
 
-  .paperless-input-select .ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option:not(.ng-option-selected):hover,
-  .paperless-input-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  .paperless-input-select
+    .ng-select
+    .ng-dropdown-panel
+    .ng-dropdown-panel-items
+    .ng-option:not(.ng-option-selected):hover,
+  .paperless-input-select
+    .ng-dropdown-panel
+    .ng-dropdown-panel-items
+    .ng-option.ng-option-marked {
     background-color: var(--bs-light) !important;
   }
 
@@ -241,7 +291,9 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
     .des,
     .asc {
       &::after {
-        filter: invert(0.8); /* arrow is a black inline png bkgd image (!) so use filter */
+        filter: invert(
+          0.8
+        ); /* arrow is a black inline png bkgd image (!) so use filter */
       }
     }
 
@@ -252,7 +304,8 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
   }
 
   .table-row-selected {
-    td, a:not(.badge) {
+    td,
+    a:not(.badge) {
       color: var(--pngx-primary-text-contrast) !important;
     }
   }
@@ -283,16 +336,24 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
     color: var(--pngx-body-color-accent);
   }
 
-  .close, .modal .btn-close, .alert .btn-close {
+  .close,
+  .modal .btn-close,
+  .alert .btn-close {
     text-shadow: 0 1px 0 #666;
   }
 
-  .modal .btn-close, .alert .btn-close, .toast .btn-close {
+  .modal .btn-close,
+  .alert .btn-close,
+  .toast .btn-close {
     filter: invert(1) grayscale(100%) brightness(200%);
   }
 
   .toast {
-    background-color: hsla(var(--pngx-primary), calc(var(--pngx-primary-lightness) - 15%), 0.9);
+    background-color: hsla(
+      var(--pngx-primary),
+      calc(var(--pngx-primary-lightness) - 15%),
+      0.9
+    );
   }
 
   .toast,
@@ -357,5 +418,4 @@ $form-check-radio-checked-bg-image-dark: url("data:image/svg+xml,<svg xmlns='htt
       @include dark-mode;
     }
   }
-
 }

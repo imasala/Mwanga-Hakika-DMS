@@ -3,6 +3,9 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from django.conf import settings
+from django.contrib.auth.models import User
+
 DEFAULT_SINGLETON_INSTANCE_ID = 1
 
 
@@ -381,3 +384,29 @@ class ApplicationConfiguration(AbstractSingletonModel):
 
     def __str__(self) -> str:  # pragma: no cover
         return "ApplicationConfiguration"
+
+class UserRole(models.Model):
+    class Role(models.TextChoices):
+        ADMIN = "ADMIN", _("Admin")
+        HEAD = "HEAD", _("Head")
+        MANAGER = "MANAGER", _("Manager")
+        ASSISTANT_MANAGER = "ASSISTANT_MANAGER", _("Assistant Manager")
+        SENIOR_OFFICER = "SENIOR_OFFICER", _("Senior Officer")
+        OFFICER = "OFFICER", _("Officer")
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="role_profile",
+    )
+
+    role = models.CharField(
+        max_length=32,
+        choices=Role.choices,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"{self.user.username} - {self.get_role_display()}"
+

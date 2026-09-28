@@ -1,10 +1,15 @@
 body {
-  --bs-body-bg: #f5f5f5;
-  --bs-link-color-rgb: 23, 84, 31; /* #17541f */
-  --bs-link-hover-color-rgb: 15, 56, 20;
-  --pngx-primary: #17541f;
-  --pngx-primary-hover: #0f3614;
-  --pngx-primary-active: #0c2c10;
+  --bs-body-bg: #ffffff;
+
+  /* Mwanga Hakika Bank Colors */
+  --bs-link-color-rgb: 0, 161, 224; /* #00A1E0 */
+  --bs-link-hover-color-rgb: 228, 122, 47; /* #E47A2F */
+
+  --pngx-primary: #00A1E0;
+  --pngx-primary-hover: #E47A2F;
+  --pngx-primary-active: #231F20;
+
+  --bs-body-color: #231F20;
 }
 
 .logo {
@@ -14,6 +19,7 @@ body {
 .byline {
   font-size: 0.6rem;
   letter-spacing: 0.1rem;
+  color: #231F20;
 }
 
 .text-primary {
@@ -21,22 +27,30 @@ body {
 }
 
 .form-control {
-  --bs-body-bg: #fff;
+  --bs-body-bg: #ffffff;
+  border-color: #d9d9d9;
+}
+
+.form-control:focus {
+  border-color: #00A1E0;
+  box-shadow: 0 0 0 0.25rem rgba(0, 161, 224, 0.25);
 }
 
 .btn.btn-primary {
-  --bs-btn-bg: var(--pngx-primary);
-  --bs-btn-border-color: var(--pngx-primary);
-  --bs-btn-hover-bg: var(--pngx-primary-hover);
-  --bs-btn-hover-border-color: #0c2c10;
-  --bs-btn-active-bg: var(--pngx-primary-active);
-  --bs-btn-active-border-color: #09220d;
+  --bs-btn-bg: #00A1E0;
+  --bs-btn-border-color: #00A1E0;
+
+  --bs-btn-hover-bg: #E47A2F;
+  --bs-btn-hover-border-color: #E47A2F;
+
+  --bs-btn-active-bg: #231F20;
+  --bs-btn-active-border-color: #231F20;
 }
 
 .btn-link {
-  --bs-btn-color: var(--pngx-primary);
-  --bs-btn-hover-color: var(--pngx-primary-hover);
-  --bs-btn-active-color: var(--pngx-primary-active);
+  --bs-btn-color: #00A1E0;
+  --bs-btn-hover-color: #E47A2F;
+  --bs-btn-active-color: #231F20;
 }
 
 .form-accounts {
@@ -72,24 +86,26 @@ body {
   z-index: 101;
 }
 
+
+/*
+  Disable automatic dark mode.
+  Mwanga Hakika Bank DMS keeps a consistent
+  corporate white appearance.
+*/
 @media (prefers-color-scheme: dark) {
-  /* From theme_dark.scss */
   body {
-    --bs-body-bg: #161618;
-    --bs-body-color: #abb2bf;
-    --bs-body-color-rgb: 171, 178, 191;
-    --bs-border-color: #47494f;
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #231F20;
+    --bs-body-color-rgb: 35, 31, 32;
+    --bs-border-color: #d9d9d9;
   }
 
-  .form-control, .form-floating {
-    --bs-body-bg: #1c1c1f;
-  }
-
-  svg.logo .text {
-    fill: #abb2bf !important;
+  .form-control,
+  .form-floating {
+    --bs-body-bg: #ffffff;
   }
 
   .byline {
-    color: #abb2bf;
+    color: #231F20;
   }
 }

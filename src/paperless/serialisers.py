@@ -19,6 +19,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 from paperless.models import ApplicationConfiguration
+from paperless.models import UserRole
+
 from paperless.network import validate_outbound_http_url
 from paperless.validators import reject_dangerous_svg
 from paperless.validators import validate_raster_image
@@ -76,6 +78,12 @@ class PaperlessAuthTokenSerializer(AuthTokenSerializer):
 
 class UserSerializer(PasswordValidationMixin, serializers.ModelSerializer[User]):
     password = ObfuscatedPasswordField(required=False)
+    role = serializers.ChoiceField(
+        choices=UserRole.Role.choices,
+        required=False,
+        allow_null=True,
+        write_only=False,
+    )
     user_permissions = serializers.SlugRelatedField(
         many=True,
         queryset=Permission.objects.exclude(content_type__app_label="admin"),
@@ -84,6 +92,17 @@ class UserSerializer(PasswordValidationMixin, serializers.ModelSerializer[User])
     )
     inherited_permissions = serializers.SerializerMethodField()
     is_mfa_enabled = serializers.SerializerMethodField()
+    role = serializers.ChoiceField(
+        choices=UserRole.Role.choices,
+        required=False,
+        allow_null=True,
+    )
+
+    # def get_role(self, obj) -> str | None:
+    #     try:
+    #         return obj.role_profile.role
+    #     except UserRole.DoesNotExist:
+    #         return None
 
     def get_is_mfa_enabled(self, user: User) -> bool:
         mfa_adapter = get_mfa_adapter()
@@ -94,6 +113,7 @@ class UserSerializer(PasswordValidationMixin, serializers.ModelSerializer[User])
         fields = (
             "id",
             "username",
+            "role",
             "email",
             "password",
             "first_name",
@@ -107,38 +127,79 @@ class UserSerializer(PasswordValidationMixin, serializers.ModelSerializer[User])
             "inherited_permissions",
             "is_mfa_enabled",
         )
+        extra_kwargs = {
+            "email": {"required": True, "allow_blank": False},
+            "first_name": {"required": True, "allow_blank": False},
+            "last_name": {"required": True, "allow_blank": False},
+        } # Those fields shouldn't be empty
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        try:
+            representation["role"] = instance.role_profile.role
+        except UserRole.DoesNotExist:
+            representation["role"] = None
+
+        return representation
 
     def get_inherited_permissions(self, obj) -> list[str]:
         return obj.get_group_permissions()
 
     def update(self, instance, validated_data):
         password = validated_data.pop("password", None)
+        role = validated_data.pop("role", None)
+
         if self._has_real_password(password):
             instance.set_password(password)
             instance.save()
 
-        super().update(instance, validated_data)
-        return instance
+        user = super().update(instance, validated_data)
+
+        if role:
+            UserRole.objects.update_or_create(
+                user=user,
+                defaults={"role": role},
+            )
+
+        return user
 
     def create(self, validated_data):
+        role = validated_data.pop("role", None)
+
         groups = None
         if "groups" in validated_data:
             groups = validated_data.pop("groups")
+
         user_permissions = None
         if "user_permissions" in validated_data:
             user_permissions = validated_data.pop("user_permissions")
+
         password = validated_data.pop("password", None)
+
         user = User.objects.create(**validated_data)
-        # set groups
+
+        # Set groups
         if groups:
             user.groups.set(groups)
-        # set permissions
+
+        # Set permissions
         if user_permissions:
             user.user_permissions.set(user_permissions)
-        # set password
+
+        # Set password
         if self._has_real_password(password):
             user.set_password(password)
+
         user.save()
+
+        # Set role
+        if role:
+            UserRole.objects.update_or_create(
+                user=user,
+                defaults={"role": role},
+            )
+
         return user
 
 

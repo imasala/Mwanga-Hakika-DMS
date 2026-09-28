@@ -122,6 +122,9 @@ ARG RUNTIME_PACKAGES="\
   # Docker specific
   gosu \
   # Timezones support
+  # LDAP
+  libldap2 \
+  libsasl2-2 \
   tzdata \
   # fonts for text file thumbnail generation
   fonts-liberation \
@@ -183,11 +186,16 @@ COPY --chown=1000:1000 ["pyproject.toml", "uv.lock", "/usr/src/paperless/src/"]
 # dependencies
 ARG BUILD_PACKAGES="\
   build-essential \
-  # https://github.com/PyMySQL/mysqlclient#linux
+  git \
+ 
+  libldap2-dev \
+  libsasl2-dev \
+  libssl-dev \
+  
   default-libmysqlclient-dev \
   pkg-config"
 
-# hadolint ignore=DL3042
+
 RUN set -eux \
   && echo "Installing build system packages" \
     && apt-get update \

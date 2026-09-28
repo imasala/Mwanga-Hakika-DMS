@@ -2,6 +2,7 @@ import { ObjectWithId } from './object-with-id'
 
 export interface User extends ObjectWithId {
   username?: string
+  role?: string
   first_name?: string
   last_name?: string
   date_joined?: Date

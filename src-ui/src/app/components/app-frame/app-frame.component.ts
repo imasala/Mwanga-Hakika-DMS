@@ -5,6 +5,7 @@ import {
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop'
+
 import { NgClass } from '@angular/common'
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
@@ -19,35 +20,54 @@ import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons'
 import { TourNgBootstrap } from 'ngx-ui-tour-ng-bootstrap'
 import { Observable } from 'rxjs'
 import { first } from 'rxjs/operators'
+
 import { Document } from 'src/app/data/document'
 import { SavedView } from 'src/app/data/saved-view'
 import { CollapsibleSection, SETTINGS_KEYS } from 'src/app/data/ui-settings'
 import { IfPermissionsDirective } from 'src/app/directives/if-permissions.directive'
 import { ComponentCanDeactivate } from 'src/app/guards/dirty-doc.guard'
 import { DocumentTitlePipe } from 'src/app/pipes/document-title.pipe'
+
 import {
   DjangoMessageLevel,
   DjangoMessagesService,
 } from 'src/app/services/django-messages.service'
+
 import { OpenDocumentsService } from 'src/app/services/open-documents.service'
+
 import {
   PermissionAction,
   PermissionsService,
   PermissionType,
 } from 'src/app/services/permissions.service'
+
+import { DocumentService } from 'src/app/services/rest/document.service'
+
 import {
   AppRemoteVersion,
   RemoteVersionService,
 } from 'src/app/services/rest/remote-version.service'
+
 import { SavedViewService } from 'src/app/services/rest/saved-view.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { TasksService } from 'src/app/services/tasks.service'
 import { ToastService } from 'src/app/services/toast.service'
+
 import { environment } from 'src/environments/environment'
+
 import { ChatComponent } from '../chat/chat/chat.component'
+
+import {
+  ExpiryNotificationComponent,
+  ExpiryNotificationDocument,
+} from '../common/expiry-notification/expiry-notification.component'
+
 import { ProfileEditDialogComponent } from '../common/profile-edit-dialog/profile-edit-dialog.component'
+
 import { DocumentDetailComponent } from '../document-detail/document-detail.component'
+
 import { ComponentWithPermissions } from '../with-permissions/with-permissions.component'
+
 import { GlobalSearchComponent } from './global-search/global-search.component'
 import { ToastsDropdownComponent } from './toasts-dropdown/toasts-dropdown.component'
 
@@ -79,25 +99,41 @@ export class AppFrameComponent
   implements OnInit, ComponentCanDeactivate
 {
   router = inject(Router)
+
   private activatedRoute = inject(ActivatedRoute)
   private openDocumentsService = inject(OpenDocumentsService)
+
   savedViewService = inject(SavedViewService)
+
   private remoteVersionService = inject(RemoteVersionService)
+
   settingsService = inject(SettingsService)
+
   tasksService = inject(TasksService)
+
   private readonly toastService = inject(ToastService)
+
+  private documentService = inject(DocumentService)
+
   private modalService = inject(NgbModal)
+
   permissionsService = inject(PermissionsService)
+
   private djangoMessagesService = inject(DjangoMessagesService)
 
   readonly appRemoteVersion = signal<AppRemoteVersion>(null)
+
   readonly isMenuCollapsed = signal(true)
+
   readonly slimSidebarAnimating = signal(false)
+
   readonly mobileSearchHidden = signal(false)
+
   private lastScrollY: number = 0
 
   constructor() {
     super()
+
     const permissionsService = this.permissionsService
 
     if (
@@ -118,6 +154,7 @@ export class AppFrameComponent
     if (this.settingsService.get(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED)) {
       this.checkForUpdates()
     }
+
     if (
       this.permissionsService.currentUserCan(
         PermissionAction.View,
@@ -133,6 +170,7 @@ export class AppFrameComponent
         case DjangoMessageLevel.WARNING:
           this.toastService.showError(message.message)
           break
+
         case DjangoMessageLevel.SUCCESS:
         case DjangoMessageLevel.INFO:
         case DjangoMessageLevel.DEBUG:
@@ -140,17 +178,137 @@ export class AppFrameComponent
           break
       }
     })
+
+    this.checkExpiryNotifications()
+  }
+
+  
+
+ private checkExpiryNotifications(): void {
+  this.documentService
+    .list(
+      1,
+      100000,
+      null,
+      null,
+      {
+        fields: 'id,title,expiry_date,expiry_status',
+      }
+    )
+    .subscribe({
+      next: (response) => {
+        const documents = response.results
+
+        const expiredDocuments = documents.filter(
+          (document) =>
+            document.expiry_status === 'expired' &&
+            document.expiry_date
+        )
+
+        const expiringSoonDocuments = documents.filter(
+          (document) =>
+            document.expiry_status === 'expiring_soon' &&
+            document.expiry_date
+        )
+
+        if (
+          expiredDocuments.length === 0 &&
+          expiringSoonDocuments.length === 0
+        ) {
+          return
+        }
+
+       const expiringSoonNotificationDocuments: ExpiryNotificationDocument[] =
+  expiringSoonDocuments.map((document) => ({
+    id: document.id,
+    title: document.title,
+    expiry_date: document.expiry_date,
+    daysRemaining: this.getDaysRemaining(
+      document.expiry_date
+    ),
+  }))
+
+const expiredNotificationDocuments: ExpiryNotificationDocument[] =
+  expiredDocuments.map((document) => ({
+    id: document.id,
+    title: document.title,
+    expiry_date: document.expiry_date,
+    daysRemaining: Math.abs(
+      this.getDaysRemaining(document.expiry_date)
+    ),
+  }))
+
+        const modalRef = this.modalService.open(
+          ExpiryNotificationComponent,
+          {
+            centered: true,
+            backdrop: 'static',
+            keyboard: false,
+          }
+        )
+
+        modalRef.componentInstance.expiredCount =
+          expiredDocuments.length
+
+        modalRef.componentInstance.expiringSoonCount =
+          expiringSoonDocuments.length
+
+       modalRef.componentInstance.expiringSoonDocuments =
+         expiringSoonNotificationDocuments
+
+        modalRef.componentInstance.expiredDocuments =
+          expiredNotificationDocuments
+        modalRef.closed.subscribe((result) => {
+          if (result === 'view-documents') {
+            this.router.navigate(['/documents'])
+          }
+        })
+      },
+      error: (error) => {
+        console.error(
+          'Failed to check document expiry notifications',
+          error
+        )
+      },
+    })
+}
+
+  private getDaysRemaining(expiryDate: string): number {
+    if (!expiryDate) {
+      return 0
+    }
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const expiry = new Date(expiryDate)
+    expiry.setHours(0, 0, 0, 0)
+
+    const difference =
+      expiry.getTime() - today.getTime()
+
+    return Math.ceil(
+      difference / (1000 * 60 * 60 * 24)
+    )
   }
 
   toggleSlimSidebar(): void {
     this.slimSidebarAnimating.set(true)
+
     const slimSidebarEnabled = !this.slimSidebarEnabled
-    this.settingsService.set(SETTINGS_KEYS.SLIM_SIDEBAR, slimSidebarEnabled)
+
+    this.settingsService.set(
+      SETTINGS_KEYS.SLIM_SIDEBAR,
+      slimSidebarEnabled
+    )
+
     if (slimSidebarEnabled) {
-      this.settingsService.set(SETTINGS_KEYS.ATTRIBUTES_SECTIONS_COLLAPSED, [
-        CollapsibleSection.ATTRIBUTES,
-      ])
+      this.settingsService.set(
+        SETTINGS_KEYS.ATTRIBUTES_SECTIONS_COLLAPSED,
+        [CollapsibleSection.ATTRIBUTES]
+      )
     }
+
     this.settingsService
       .storeSettings()
       .pipe(first())
@@ -159,22 +317,28 @@ export class AppFrameComponent
           this.toastService.showError(
             $localize`An error occurred while saving settings.`
           )
+
           console.warn(error)
         },
       })
+
     setTimeout(() => {
       this.slimSidebarAnimating.set(false)
-    }, 200) // slightly longer than css animation for slim sidebar
+    }, 200)
   }
 
   toggleAttributesSections(event?: Event): void {
     event?.preventDefault()
     event?.stopPropagation()
-    this.attributesSectionsCollapsed = !this.attributesSectionsCollapsed
+
+    this.attributesSectionsCollapsed =
+      !this.attributesSectionsCollapsed
   }
 
   toggleMenuCollapsed(): void {
-    this.isMenuCollapsed.set(!this.isMenuCollapsed())
+    this.isMenuCollapsed.set(
+      !this.isMenuCollapsed()
+    )
   }
 
   closeMobileSearch(): void {
@@ -187,12 +351,18 @@ export class AppFrameComponent
 
   get versionString(): string {
     this.settingsService.trackChanges()
-    return `${environment.appTitle} v${this.settingsService.get(SETTINGS_KEYS.VERSION)}${environment.tag === 'prod' ? '' : ` #${environment.tag}`}`
+
+    return `${environment.appTitle} v${this.settingsService.get(
+      SETTINGS_KEYS.VERSION
+    )}${environment.tag === 'prod' ? '' : ` #${environment.tag}`}`
   }
 
   get customAppTitle(): string {
     this.settingsService.trackChanges()
-    return this.settingsService.get(SETTINGS_KEYS.APP_TITLE)
+
+    return this.settingsService.get(
+      SETTINGS_KEYS.APP_TITLE
+    )
   }
 
   get canSaveSettings(): boolean {
@@ -235,11 +405,18 @@ export class AppFrameComponent
 
   get slimSidebarEnabled(): boolean {
     this.settingsService.trackChanges()
-    return this.settingsService.get(SETTINGS_KEYS.SLIM_SIDEBAR)
+
+    return this.settingsService.get(
+      SETTINGS_KEYS.SLIM_SIDEBAR
+    )
   }
 
   set slimSidebarEnabled(enabled: boolean) {
-    this.settingsService.set(SETTINGS_KEYS.SLIM_SIDEBAR, enabled)
+    this.settingsService.set(
+      SETTINGS_KEYS.SLIM_SIDEBAR,
+      enabled
+    )
+
     this.settingsService
       .storeSettings()
       .pipe(first())
@@ -248,6 +425,7 @@ export class AppFrameComponent
           this.toastService.showError(
             $localize`An error occurred while saving settings.`
           )
+
           console.warn(error)
         },
       })
@@ -255,17 +433,24 @@ export class AppFrameComponent
 
   get attributesSectionsCollapsed(): boolean {
     this.settingsService.trackChanges()
+
     return this.settingsService
-      .get(SETTINGS_KEYS.ATTRIBUTES_SECTIONS_COLLAPSED)
+      .get(
+        SETTINGS_KEYS.ATTRIBUTES_SECTIONS_COLLAPSED
+      )
       ?.includes(CollapsibleSection.ATTRIBUTES)
   }
 
-  set attributesSectionsCollapsed(collapsed: boolean) {
-    // TODO: refactor to be able to toggle individual sections, if implemented
+  set attributesSectionsCollapsed(
+    collapsed: boolean
+  ) {
     this.settingsService.set(
       SETTINGS_KEYS.ATTRIBUTES_SECTIONS_COLLAPSED,
-      collapsed ? [CollapsibleSection.ATTRIBUTES] : []
+      collapsed
+        ? [CollapsibleSection.ATTRIBUTES]
+        : []
     )
+
     this.settingsService
       .storeSettings()
       .pipe(first())
@@ -274,6 +459,7 @@ export class AppFrameComponent
           this.toastService.showError(
             $localize`An error occurred while saving settings.`
           )
+
           console.warn(error)
         },
       })
@@ -281,7 +467,10 @@ export class AppFrameComponent
 
   get aiEnabled(): boolean {
     this.settingsService.trackChanges()
-    return this.settingsService.get(SETTINGS_KEYS.AI_ENABLED)
+
+    return this.settingsService.get(
+      SETTINGS_KEYS.AI_ENABLED
+    )
   }
 
   @HostListener('window:resize')
@@ -295,17 +484,28 @@ export class AppFrameComponent
   onWindowScroll(): void {
     const currentScrollY = window.scrollY
 
-    if (!this.isMobileViewport() || this.isMenuCollapsed() === false) {
+    if (
+      !this.isMobileViewport() ||
+      this.isMenuCollapsed() === false
+    ) {
       this.mobileSearchHidden.set(false)
       this.lastScrollY = currentScrollY
+
       return
     }
 
-    const delta = currentScrollY - this.lastScrollY
+    const delta =
+      currentScrollY - this.lastScrollY
 
-    if (currentScrollY <= 0 || delta < -SCROLL_THRESHOLD) {
+    if (
+      currentScrollY <= 0 ||
+      delta < -SCROLL_THRESHOLD
+    ) {
       this.mobileSearchHidden.set(false)
-    } else if (currentScrollY > SCROLL_THRESHOLD && delta > SCROLL_THRESHOLD) {
+    } else if (
+      currentScrollY > SCROLL_THRESHOLD &&
+      delta > SCROLL_THRESHOLD
+    ) {
       this.mobileSearchHidden.set(true)
     }
 
@@ -321,10 +521,14 @@ export class AppFrameComponent
   }
 
   editProfile() {
-    this.modalService.open(ProfileEditDialogComponent, {
-      backdrop: 'static',
-      size: 'xl',
-    })
+    this.modalService.open(
+      ProfileEditDialogComponent,
+      {
+        backdrop: 'static',
+        size: 'xl',
+      }
+    )
+
     this.closeMenu()
   }
 
@@ -344,12 +548,17 @@ export class AppFrameComponent
       .subscribe((confirmed) => {
         if (confirmed) {
           this.closeMenu()
-          let route = this.activatedRoute.snapshot
+
+          let route =
+            this.activatedRoute.snapshot
+
           while (route.firstChild) {
             route = route.firstChild
           }
+
           if (
-            route.component == DocumentDetailComponent &&
+            route.component ==
+              DocumentDetailComponent &&
             route.params['id'] == d.id
           ) {
             this.router.navigate([''])
@@ -359,7 +568,6 @@ export class AppFrameComponent
   }
 
   closeAll() {
-    // user may need to confirm losing unsaved changes
     this.openDocumentsService
       .closeAll()
       .pipe(first())
@@ -367,12 +575,17 @@ export class AppFrameComponent
         if (confirmed) {
           this.closeMenu()
 
-          // TODO: is there a better way to do this?
-          let route = this.activatedRoute
+          let route =
+            this.activatedRoute
+
           while (route.firstChild) {
             route = route.firstChild
           }
-          if (route.component === DocumentDetailComponent) {
+
+          if (
+            route.component ===
+            DocumentDetailComponent
+          ) {
             this.router.navigate([''])
           }
         }
@@ -380,37 +593,67 @@ export class AppFrameComponent
   }
 
   onDragStart(event: CdkDragStart) {
-    this.settingsService.globalDropzoneEnabled.set(false)
+    this.settingsService.globalDropzoneEnabled.set(
+      false
+    )
   }
 
   onDragEnd(event: CdkDragEnd) {
-    this.settingsService.globalDropzoneEnabled.set(true)
+    this.settingsService.globalDropzoneEnabled.set(
+      true
+    )
   }
 
-  onDrop(event: CdkDragDrop<SavedView[]>) {
-    const sidebarViews = this.savedViewService.sidebarViews.concat([])
-    moveItemInArray(sidebarViews, event.previousIndex, event.currentIndex)
+  onDrop(
+    event: CdkDragDrop<SavedView[]>
+  ) {
+    const sidebarViews =
+      this.savedViewService.sidebarViews.concat([])
 
-    this.settingsService.updateSidebarViewsSort(sidebarViews).subscribe({
-      next: () => {
-        this.toastService.showInfo($localize`Sidebar views updated`)
-      },
-      error: (e) => {
-        this.toastService.showError($localize`Error updating sidebar views`, e)
-      },
-    })
+    moveItemInArray(
+      sidebarViews,
+      event.previousIndex,
+      event.currentIndex
+    )
+
+    this.settingsService
+      .updateSidebarViewsSort(sidebarViews)
+      .subscribe({
+        next: () => {
+          this.toastService.showInfo(
+            $localize`Sidebar views updated`
+          )
+        },
+
+        error: (e) => {
+          this.toastService.showError(
+            $localize`Error updating sidebar views`,
+            e
+          )
+        },
+      })
   }
 
   private checkForUpdates() {
     this.remoteVersionService
       .checkForUpdates()
-      .subscribe((appRemoteVersion: AppRemoteVersion) => {
-        this.appRemoteVersion.set(appRemoteVersion)
-      })
+      .subscribe(
+        (
+          appRemoteVersion: AppRemoteVersion
+        ) => {
+          this.appRemoteVersion.set(
+            appRemoteVersion
+          )
+        }
+      )
   }
 
   setUpdateChecking(enable: boolean) {
-    this.settingsService.set(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED, enable)
+    this.settingsService.set(
+      SETTINGS_KEYS.UPDATE_CHECKING_ENABLED,
+      enable
+    )
+
     this.settingsService
       .storeSettings()
       .pipe(first())
@@ -419,9 +662,11 @@ export class AppFrameComponent
           this.toastService.showError(
             $localize`An error occurred while saving update checking settings.`
           )
+
           console.warn(error)
         },
       })
+
     if (enable) {
       this.checkForUpdates()
     }
@@ -433,8 +678,11 @@ export class AppFrameComponent
 
   get showSidebarCounts(): boolean {
     this.settingsService.trackChanges()
+
     return (
-      this.settingsService.get(SETTINGS_KEYS.SIDEBAR_VIEWS_SHOW_COUNT) &&
+      this.settingsService.get(
+        SETTINGS_KEYS.SIDEBAR_VIEWS_SHOW_COUNT
+      ) &&
       !this.settingsService.organizingSidebarSavedViews()
     )
   }

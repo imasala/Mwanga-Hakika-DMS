@@ -1,0 +1,122 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    ⚠ Document Expiry Notifications
+  </h4>
+
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="dismiss()"
+  ></button>
+</div>
+
+<div class="modal-body">
+
+  <!-- Expired Summary -->
+  @if (expiredCount > 0) {
+    <div class="expiry-summary expired">
+      <strong>
+        🔴 {{ expiredCount }} document(s) have expired
+      </strong>
+    </div>
+  }
+
+  <!-- Expiring Soon Summary -->
+  @if (expiringSoonCount > 0) {
+    <div class="expiry-summary expiring">
+      <strong>
+        🟠 {{ expiringSoonCount }} document(s) are approaching expiry
+      </strong>
+    </div>
+  }
+
+
+  <!-- Expired Documents List -->
+  @if (expiredDocuments.length > 0) {
+    <div class="expired-documents mt-3">
+
+      <h6 class="text-danger">
+        Expired Documents:
+      </h6>
+
+      <ul class="list-group">
+
+        @for (document of expiredDocuments; track document.id) {
+          <li class="list-group-item">
+
+            <div class="fw-semibold">
+              {{ document.title }}
+            </div>
+
+            <small class="text-muted">
+              Expired on: {{ document.expiry_date }}
+            </small>
+
+            <div class="text-danger small">
+              Expired {{ document.daysRemaining }} day(s) ago
+            </div>
+
+          </li>
+        }
+
+      </ul>
+
+    </div>
+  }
+
+
+  <!-- Expiring Soon Documents List -->
+  @if (expiringSoonDocuments.length > 0) {
+    <div class="expiring-documents mt-4">
+
+      <h6 class="text-warning">
+        Expiring Soon:
+      </h6>
+
+      <ul class="list-group">
+
+        @for (document of expiringSoonDocuments; track document.id) {
+          <li class="list-group-item">
+
+            <div class="fw-semibold">
+              {{ document.title }}
+            </div>
+
+            <small class="text-muted">
+              Expiry date: {{ document.expiry_date }}
+            </small>
+
+            <div class="text-warning small">
+              {{ document.daysRemaining }} day(s) remaining
+            </div>
+
+          </li>
+        }
+
+      </ul>
+
+    </div>
+  }
+
+</div>
+
+<div class="modal-footer">
+
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="viewDocuments()"
+  >
+    View Documents
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="dismiss()"
+  >
+    Dismiss
+  </button>
+
+</div>

@@ -260,12 +260,28 @@ export class DocumentListComponent
   }
 
   ngOnInit(): void {
-    this.websocketStatusService
-      .onDocumentConsumptionFinished()
-      .pipe(takeUntil(this.unsubscribeNotifier))
-      .subscribe(() => {
-        this.list.reload()
-      })
+  this.websocketStatusService
+  .onDocumentConsumptionFinished()
+  .pipe(takeUntil(this.unsubscribeNotifier))
+  .subscribe((status) => {
+    console.log('MWANGA DMS - DOCUMENT CONSUMPTION FINISHED:', status)
+
+    this.list.reload(() => {
+      console.log(
+        'MWANGA DMS - RELOADED, DOCUMENT ID:',
+        status.documentId
+      )
+
+      if (status.documentId) {
+        console.log(
+          'MWANGA DMS - OPENING DOCUMENT:',
+          status.documentId
+        )
+
+        this.openDocumentDetail(status.documentId)
+      }
+    })
+  })
 
     this.websocketStatusService.onDocumentDeleted().subscribe(() => {
       this.list.reload()

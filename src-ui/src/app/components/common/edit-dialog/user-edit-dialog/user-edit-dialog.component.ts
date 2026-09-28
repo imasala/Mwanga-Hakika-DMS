@@ -15,7 +15,7 @@ import { UserService } from 'src/app/services/rest/user.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { ToastService } from 'src/app/services/toast.service'
 import { ConfirmButtonComponent } from '../../confirm-button/confirm-button.component'
-import { PasswordComponent } from '../../input/password/password.component'
+// import { PasswordComponent } from '../../input/password/password.component'
 import { SelectComponent } from '../../input/select/select.component'
 import { TextComponent } from '../../input/text/text.component'
 import { PermissionsSelectComponent } from '../../permissions-select/permissions-select.component'
@@ -28,7 +28,7 @@ import { PermissionsSelectComponent } from '../../permissions-select/permissions
     PermissionsSelectComponent,
     SelectComponent,
     TextComponent,
-    PasswordComponent,
+    // PasswordComponent,
     ConfirmButtonComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -45,8 +45,16 @@ export class UserEditDialogComponent
     this.groupsService.listAll().pipe(map((result) => result.results)),
     { initialValue: undefined as Group[] }
   )
-  readonly passwordIsSet = signal(false)
+  // readonly passwordIsSet = signal(false)
   readonly totpLoading = signal(false)
+  readonly roles = [
+  { id: 'ADMIN', name: 'Admin' },
+  { id: 'HEAD', name: 'Head' },
+  { id: 'MANAGER', name: 'Manager' },
+  { id: 'ASSISTANT_MANAGER', name: 'Assistant Manager' },
+  { id: 'SENIOR_OFFICER', name: 'Senior Officer' },
+  { id: 'OFFICER', name: 'Officer' },
+  ]
 
   constructor() {
     super()
@@ -76,7 +84,8 @@ export class UserEditDialogComponent
     return new FormGroup({
       username: new FormControl(''),
       email: new FormControl(''),
-      password: new FormControl(null),
+      role: new FormControl(null),
+      // password: new FormControl(null),
       first_name: new FormControl(''),
       last_name: new FormControl(''),
       is_active: new FormControl(true),
@@ -106,10 +115,10 @@ export class UserEditDialogComponent
   }
 
   save(): void {
-    this.passwordIsSet.set(
-      this.objectForm.get('password').value?.toString().replaceAll('*', '')
-        .length > 0
-    )
+    // this.passwordIsSet.set(
+    //   this.objectForm.get('password').value?.toString().replaceAll('*', '')
+    //     .length > 0
+    // )
     super.save()
   }
 

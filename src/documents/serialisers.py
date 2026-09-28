@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+from paperless.models import ApplicationConfiguration, UserRole
+
 import logging
 import math
+import calendar
 import re
 from datetime import datetime
 from datetime import timedelta
@@ -718,7 +721,6 @@ class TagSerializer(MatchingModelSerializer, OwnedObjectSerializer):
             except ValidationError as e:
                 logger.debug("Tag parent validation failed: %s", e)
                 raise e
-
         return super().validate(attrs)
 
 
@@ -1039,6 +1041,46 @@ class DocumentSerializer(
     original_file_name = SerializerMethodField()
     archived_file_name = SerializerMethodField()
     created_date = serializers.DateField(required=False)
+    service_provider = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
+
+    service_type = serializers.CharField(
+    required=False,
+    allow_null=True,
+    allow_blank=True,
+    )
+
+    # service_type = serializers.ChoiceField(
+    #     # choices=Document.SERVICE_TYPE_CHOICES,
+    #     required=False,
+    #     allow_null=True,
+    #     allow_blank=True,
+    # )
+
+    department = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
+
+    tenure = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+        read_only=True,
+    )
+
+    start_date = serializers.DateField(
+        required=False,
+        allow_null=True,
+    )
+    expiry_date = serializers.DateField(required=False, allow_null=True,)
+
+    expiry_status = serializers.SerializerMethodField()
+
     page_count = SerializerMethodField()
     duplicate_documents = SerializerMethodField()
 
@@ -1060,12 +1102,93 @@ class DocumentSerializer(
         allow_null=True,
     )
 
+    allowed_groups = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Group.objects.all(),
+        required=False,
+    )
+
+    allowed_roles = serializers.ListField(
+    child=serializers.ChoiceField(
+        choices=UserRole.Role.choices,
+    ),
+        required=False,
+        allow_empty=True,
+    )
+
     remove_inbox_tags = serializers.BooleanField(
         default=False,
         write_only=True,
         allow_null=True,
         required=False,
     )
+
+    @staticmethod
+    def calculate_tenure(start_date, expiry_date):
+        if not start_date or not expiry_date:
+            return None
+
+        if expiry_date < start_date:
+            raise serializers.ValidationError(
+                {
+                    "expiry_date": (
+                        "Expiry date cannot be earlier than start date."
+                    )
+                }
+            )
+
+        months = (
+            (expiry_date.year - start_date.year) * 12
+            + expiry_date.month
+            - start_date.month
+        )
+
+        # Calculate the date reached after adding the full months.
+        year = start_date.year + (start_date.month - 1 + months) // 12
+        month = (start_date.month - 1 + months) % 12 + 1
+
+        day = min(
+            start_date.day,
+            calendar.monthrange(year, month)[1],
+        )
+
+        month_date = start_date.replace(
+            year=year,
+            month=month,
+            day=day,
+        )
+
+        # If adding those months goes beyond the expiry date,
+        # reduce the number of complete months by one.
+        if month_date > expiry_date:
+            months -= 1
+
+            year = start_date.year + (start_date.month - 1 + months) // 12
+            month = (start_date.month - 1 + months) % 12 + 1
+
+            day = min(
+                start_date.day,
+                calendar.monthrange(year, month)[1],
+            )
+
+            month_date = start_date.replace(
+                year=year,
+                month=month,
+                day=day,
+            )
+
+        remaining_days = (expiry_date - month_date).days
+
+        if months == 0:
+            return f"{remaining_days} day{'s' if remaining_days != 1 else ''}"
+
+        if remaining_days == 0:
+            return f"{months} month{'s' if months != 1 else ''}"
+
+        return (
+            f"{months} month{'s' if months != 1 else ''} "
+            f"{remaining_days} day{'s' if remaining_days != 1 else ''}"
+        )
 
     def get_page_count(self, obj) -> int | None:
         return obj.page_count
@@ -1118,6 +1241,56 @@ class DocumentSerializer(
         info.sort(key=lambda item: item["id"], reverse=True)
         return info
 
+    # def validate(self, attrs):
+    #     allowed_groups = attrs.get("allowed_groups")
+    #     allowed_roles = attrs.get("allowed_roles")
+
+    #     # During update, use existing values if they are not being changed
+    #     if self.instance:
+    #         if allowed_groups is None:
+    #             allowed_groups = list(self.instance.allowed_groups.all())
+
+    #         if allowed_roles is None:
+    #             allowed_roles = self.instance.allowed_roles or []
+
+    #     # Group and role must be configured together
+    #     if allowed_groups and not allowed_roles:
+    #         raise serializers.ValidationError(
+    #             {
+    #                 "allowed_roles": [
+    #                     "Allowed roles must be selected when allowed groups are selected.",
+    #                 ],
+    #             },
+    #         )
+
+    #     if allowed_roles and not allowed_groups:
+    #         raise serializers.ValidationError(
+    #             {
+    #                 "allowed_groups": [
+    #                     "Allowed groups must be selected when allowed roles are selected.",
+    #                 ],
+    #             },
+    #         )
+
+    #     # Existing validation
+    #     if (
+    #         "archive_serial_number" in attrs
+    #         and attrs["archive_serial_number"] is not None
+    #         and len(str(attrs["archive_serial_number"])) > 0
+    #         and Document.deleted_objects.filter(
+    #             archive_serial_number=attrs["archive_serial_number"],
+    #         ).exists()
+    #     ):
+    #         raise serializers.ValidationError(
+    #             {
+    #                 "archive_serial_number": [
+    #                     "Document with this Archive Serial Number already exists in the trash.",
+    #                 ],
+    #             },
+    #         )
+
+    #     return super().validate(attrs)
+
     def get_original_file_name(self, obj) -> str | None:
         return obj.original_filename
 
@@ -1150,6 +1323,39 @@ class DocumentSerializer(
         return super().to_internal_value(data)
 
     def validate(self, attrs):
+        allowed_groups = attrs.get("allowed_groups")
+        allowed_roles = attrs.get("allowed_roles")
+
+        # During update, use existing values if they are not being changed
+        if self.instance:
+            if allowed_groups is None:
+                allowed_groups = list(self.instance.allowed_groups.all())
+
+            if allowed_roles is None:
+                allowed_roles = self.instance.allowed_roles or []
+
+        # Roles can only be used together with groups.
+        #
+        # Valid scenarios:
+        #
+        # 1. Groups only:
+        #    User belongs to allowed group
+        #
+        # 2. Groups + roles:
+        #    User belongs to allowed group
+        #    AND
+        #    User has allowed role
+        #
+        if allowed_roles and not allowed_groups:
+            raise serializers.ValidationError(
+                {
+                    "allowed_groups": [
+                        "Allowed groups must be selected when allowed roles are selected.",
+                    ],
+                },
+            )
+
+        # Existing archive serial number validation
         if (
             "archive_serial_number" in attrs
             and attrs["archive_serial_number"] is not None
@@ -1165,6 +1371,23 @@ class DocumentSerializer(
                     ],
                 },
             )
+
+        # Calculate tenure automatically from start date and expiry date.
+        start_date = attrs.get(
+            "start_date",
+            self.instance.start_date if self.instance else None,
+        )
+
+        expiry_date = attrs.get(
+            "expiry_date",
+            self.instance.expiry_date if self.instance else None,
+        )
+
+        attrs["tenure"] = self.calculate_tenure(
+            start_date,
+            expiry_date,
+        )
+
         return super().validate(attrs)
 
     def update(self, instance: Document, validated_data):
@@ -1263,11 +1486,23 @@ class DocumentSerializer(
             kwargs["full_perms"] = True
 
         super().__init__(*args, **kwargs)
+    
+    def get_expiry_status(self, obj):
+        return obj.expiry_status.value
 
     class Meta:
         model = Document
         fields = (
             "id",
+
+            "service_provider",
+            "service_type",
+            "department",
+            "tenure",
+            "start_date",
+            "expiry_date",
+            "expiry_status",
+
             "correspondent",
             "document_type",
             "storage_path",
@@ -1283,7 +1518,11 @@ class DocumentSerializer(
             "original_file_name",
             "archived_file_name",
             "duplicate_documents",
+
             "owner",
+            "allowed_groups",
+            "allowed_roles",
+
             "permissions",
             "user_can_change",
             "is_shared_by_requester",

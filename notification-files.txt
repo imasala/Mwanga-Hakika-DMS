@@ -1,0 +1,14 @@
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\toasts-dropdown\toasts-dropdown.component.html
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\toasts-dropdown\toasts-dropdown.component.scss
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\toasts-dropdown\toasts-dropdown.component.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\app-frame\toasts-dropdown\toasts-dropdown.component.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toast\toast.component.html
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toast\toast.component.scss
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toast\toast.component.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toast\toast.component.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toasts\toasts.component.html
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toasts\toasts.component.scss
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toasts\toasts.component.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\components\common\toasts\toasts.component.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\toast.service.spec.ts
+C:\Users\imasala\OneDrive - Mwanga Hakika Bank\Desktop\paperless-ngx\src-ui\src\app\services\toast.service.ts

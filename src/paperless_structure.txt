@@ -1,0 +1,747 @@
+Folder PATH listing
+Volume serial number is 00000021 B88F:2D5F
+C:.
+|   manage.py
+|   paperless_structure.txt
+|   
++---documents
+|   |   admin.py
+|   |   apps.py
+|   |   barcodes.py
+|   |   bulk_download.py
+|   |   bulk_edit.py
+|   |   caching.py
+|   |   checks.py
+|   |   classifier.py
+|   |   conditionals.py
+|   |   consumer.py
+|   |   context_processors.py
+|   |   converters.py
+|   |   data_models.py
+|   |   double_sided.py
+|   |   file_handling.py
+|   |   filters.py
+|   |   loggers.py
+|   |   mail.py
+|   |   matching.py
+|   |   models.py
+|   |   parsers.py
+|   |   permissions.py
+|   |   regex.py
+|   |   sanity_checker.py
+|   |   schema.py
+|   |   serialisers.py
+|   |   settings.py
+|   |   tasks.py
+|   |   utils.py
+|   |   validators.py
+|   |   versioning.py
+|   |   views.py
+|   |   __init__.py
+|   |   
+|   +---management
+|   |   |   __init__.py
+|   |   |   
+|   |   \---commands
+|   |           base.py
+|   |           convert_mariadb_uuid.py
+|   |           document_archiver.py
+|   |           document_consumer.py
+|   |           document_create_classifier.py
+|   |           document_exporter.py
+|   |           document_fuzzy_match.py
+|   |           document_importer.py
+|   |           document_index.py
+|   |           document_llmindex.py
+|   |           document_renamer.py
+|   |           document_retagger.py
+|   |           document_sanity_checker.py
+|   |           document_thumbnails.py
+|   |           manage_superuser.py
+|   |           mixins.py
+|   |           prune_audit_logs.py
+|   |           __init__.py
+|   |           
+|   +---migrations
+|   |       0001_squashed.py
+|   |       0002_squashed.py
+|   |       0003_remove_document_storage_type.py
+|   |       0004_workflowtrigger_filter_has_any_correspondents_and_more.py
+|   |       0005_alter_document_checksum_unique.py
+|   |       0006_document_content_length.py
+|   |       0007_sharelinkbundle.py
+|   |       0008_workflowaction_passwords_alter_workflowaction_type.py
+|   |       0009_alter_document_content_length.py
+|   |       0010_optimize_integer_field_sizes.py
+|   |       0011_alter_workflowaction_type.py
+|   |       0012_document_root_document.py
+|   |       0013_alter_paperlesstask_task_name.py
+|   |       0014_savedview_visibility_to_ui_settings.py
+|   |       0015_document_version_index_and_more.py
+|   |       0016_sha256_checksums.py
+|   |       0017_migrate_fulltext_query_field_prefixes.py
+|   |       0018_saved_view_simple_search_rules.py
+|   |       0019_task_system_redesign.py
+|   |       0020_drop_celery_results.py
+|   |       0021_widen_workflow_integer_fields.py
+|   |       __init__.py
+|   |       
+|   +---plugins
+|   |   |   base.py
+|   |   |   helpers.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---date_parsing
+|   |           base.py
+|   |           regex_parser.py
+|   |           __init__.py
+|   |           
+|   +---resources
+|   |       document.webp
+|   |       
+|   +---search
+|   |       _backend.py
+|   |       _dates.py
+|   |       _query.py
+|   |       _schema.py
+|   |       _tokenizer.py
+|   |       _translate.py
+|   |       __init__.py
+|   |       
+|   +---signals
+|   |       handlers.py
+|   |       __init__.py
+|   |       
+|   +---static
+|   |       base.css
+|   |       bootstrap.min.css
+|   |       
+|   +---templates
+|   |   |   index.html
+|   |   |   
+|   |   +---account
+|   |   |   |   account_inactive.html
+|   |   |   |   login.html
+|   |   |   |   password_reset.html
+|   |   |   |   password_reset_done.html
+|   |   |   |   password_reset_from_key.html
+|   |   |   |   password_reset_from_key_done.html
+|   |   |   |   signup.html
+|   |   |   |   
+|   |   |   \---email
+|   |   |           base_message.txt
+|   |   |           
+|   |   +---mfa
+|   |   |       authenticate.html
+|   |   |       
+|   |   +---paperless-ngx
+|   |   |   |   base.html
+|   |   |   |   
+|   |   |   \---snippets
+|   |   |           svg_leaf.html
+|   |   |           svg_logo.html
+|   |   |           
+|   |   \---socialaccount
+|   |           authentication_error.html
+|   |           login.html
+|   |           signup.html
+|   |           
+|   +---templating
+|   |       environment.py
+|   |       filepath.py
+|   |       filters.py
+|   |       utils.py
+|   |       workflows.py
+|   |       __init__.py
+|   |       
+|   +---tests
+|   |   |   conftest.py
+|   |   |   factories.py
+|   |   |   test_admin.py
+|   |   |   test_api_app_config.py
+|   |   |   test_api_bulk_download.py
+|   |   |   test_api_bulk_edit.py
+|   |   |   test_api_chat.py
+|   |   |   test_api_custom_fields.py
+|   |   |   test_api_documents.py
+|   |   |   test_api_document_versions.py
+|   |   |   test_api_email.py
+|   |   |   test_api_filter_by_custom_fields.py
+|   |   |   test_api_objects.py
+|   |   |   test_api_permissions.py
+|   |   |   test_api_post_document_nfc.py
+|   |   |   test_api_profile.py
+|   |   |   test_api_remote_version.py
+|   |   |   test_api_schema.py
+|   |   |   test_api_search.py
+|   |   |   test_api_status.py
+|   |   |   test_api_tasks.py
+|   |   |   test_api_trash.py
+|   |   |   test_api_uisettings.py
+|   |   |   test_api_workflows.py
+|   |   |   test_barcodes.py
+|   |   |   test_bulk_edit.py
+|   |   |   test_caching.py
+|   |   |   test_checks.py
+|   |   |   test_classifier.py
+|   |   |   test_consumer.py
+|   |   |   test_consumer_archive.py
+|   |   |   test_document_model.py
+|   |   |   test_double_sided.py
+|   |   |   test_filepath_nfc.py
+|   |   |   test_file_handling.py
+|   |   |   test_filters.py
+|   |   |   test_management.py
+|   |   |   test_management_consumer.py
+|   |   |   test_management_exporter.py
+|   |   |   test_management_fuzzy.py
+|   |   |   test_management_importer.py
+|   |   |   test_management_retagger.py
+|   |   |   test_management_superuser.py
+|   |   |   test_management_thumbnails.py
+|   |   |   test_matchables.py
+|   |   |   test_migration_saved_view_visibility.py
+|   |   |   test_migration_sha256_checksums.py
+|   |   |   test_migration_share_link_bundle.py
+|   |   |   test_models.py
+|   |   |   test_parsers.py
+|   |   |   test_regex.py
+|   |   |   test_sanity_check.py
+|   |   |   test_share_link_bundles.py
+|   |   |   test_tag_hierarchy.py
+|   |   |   test_tasks.py
+|   |   |   test_task_signals.py
+|   |   |   test_version_conditionals.py
+|   |   |   test_views.py
+|   |   |   test_workflows.py
+|   |   |   utils.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---date_parsing
+|   |   |       conftest.py
+|   |   |       test_date_parser_plugin_loading.py
+|   |   |       test_date_parsing.py
+|   |   |       __init__.py
+|   |   |       
+|   |   +---examples
+|   |   |       no-text.png
+|   |   |       
+|   |   +---management
+|   |   |       test_management_base_cmd.py
+|   |   |       test_management_document_llmindex.py
+|   |   |       test_management_sanity_checker.py
+|   |   |       __init__.py
+|   |   |       
+|   |   +---samples
+|   |   |   |   content.txt
+|   |   |   |   double-sided-even.pdf
+|   |   |   |   double-sided-odd.pdf
+|   |   |   |   eml_with_umlaut.eml
+|   |   |   |   invalid_pdf.pdf
+|   |   |   |   password-is-test.pdf
+|   |   |   |   preprocessed_content.txt
+|   |   |   |   preprocessed_content_advanced.txt
+|   |   |   |   simple-noalpha.png
+|   |   |   |   simple.jpg
+|   |   |   |   simple.pdf
+|   |   |   |   simple.png
+|   |   |   |   simple.tiff
+|   |   |   |   simple.txt
+|   |   |   |   simple.zip
+|   |   |   |   test_with_bom.pdf
+|   |   |   |   
+|   |   |   +---barcodes
+|   |   |   |       barcode-128-asn-too-large.pdf
+|   |   |   |       barcode-128-custom.pdf
+|   |   |   |       barcode-39-asn-123.pdf
+|   |   |   |       barcode-39-asn-custom-prefix.pdf
+|   |   |   |       barcode-39-asn-invalid.pdf
+|   |   |   |       barcode-39-custom.pdf
+|   |   |   |       barcode-fax-image.pdf
+|   |   |   |       barcode-qr-asn-000123-upscale-dpi.pdf
+|   |   |   |       barcode-qr-custom.pdf
+|   |   |   |       many-qr-codes.pdf
+|   |   |   |       patch-code-t-double.pdf
+|   |   |   |       patch-code-t-middle-alpha.tiff
+|   |   |   |       patch-code-t-middle-distorted.pdf
+|   |   |   |       patch-code-t-middle-fuzzy.pdf
+|   |   |   |       patch-code-t-middle-reverse.pdf
+|   |   |   |       patch-code-t-middle-unreadable.pdf
+|   |   |   |       patch-code-t-middle.pdf
+|   |   |   |       patch-code-t-middle.tiff
+|   |   |   |       patch-code-t-qr.pdf
+|   |   |   |       patch-code-t.pdf
+|   |   |   |       several-patcht-codes.pdf
+|   |   |   |       split-by-asn-1.pdf
+|   |   |   |       split-by-asn-2.pdf
+|   |   |   |       split-by-tag-basic.pdf
+|   |   |   |       split-by-tag-mixed-asn.pdf
+|   |   |   |       split-by-tag-multiple-per-page.pdf
+|   |   |   |       
+|   |   |   \---documents
+|   |   |       +---archive
+|   |   |       |       0000001.pdf
+|   |   |       |       
+|   |   |       +---originals
+|   |   |       |       0000001.pdf
+|   |   |       |       0000002.pdf
+|   |   |       |       0000003.pdf
+|   |   |       |       0000004.pdf
+|   |   |       |       0000005.pdf
+|   |   |       |       0000006.pdf
+|   |   |       |       
+|   |   |       \---thumbnails
+|   |   |               0000001.webp
+|   |   |               0000002.webp
+|   |   |               0000003.webp
+|   |   |               0000004.webp
+|   |   |               
+|   |   \---search
+|   |           conftest.py
+|   |           test_backend.py
+|   |           test_lock_backoff.py
+|   |           test_migration_fulltext_query_field_prefixes.py
+|   |           test_query.py
+|   |           test_schema.py
+|   |           test_tokenizer.py
+|   |           test_translate.py
+|   |           __init__.py
+|   |           
+|   \---workflows
+|           actions.py
+|           mutations.py
+|           utils.py
+|           webhooks.py
+|           __init__.py
+|           
++---locale
+|   +---af_ZA
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ar_AR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---be_BY
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---bg_BG
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ca_ES
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---cs_CZ
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---da_DK
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---de_DE
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---el_GR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---en_GB
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---en_US
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---es_ES
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---et_EE
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---fa_IR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---fi_FI
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---fr_FR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---he_IL
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---hi_IN
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---hr_HR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---hu_HU
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---id_ID
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---it_IT
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ja_JP
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---km_KH
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ko_KR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---la_LA
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---lb_LU
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---lt_LT
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---lv_LV
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---mk_MK
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ms_MY
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---nb_NO
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---nl_NL
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---no_NO
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---pl_PL
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---pt_BR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---pt_PT
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ro_RO
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---ru_RU
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---sk_SK
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---sl_SI
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---sq_AL
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---sr_CS
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---sv_SE
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---th_TH
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---tr_TR
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---uk_UA
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---vi_VN
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---xh_ZA
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   +---zh_CN
+|   |   \---LC_MESSAGES
+|   |           django.po
+|   |           
+|   \---zh_TW
+|       \---LC_MESSAGES
+|               django.po
+|               
++---paperless
+|   |   adapter.py
+|   |   admin.py
+|   |   apps.py
+|   |   asgi.py
+|   |   auth.py
+|   |   celery.py
+|   |   checks.py
+|   |   config.py
+|   |   consumers.py
+|   |   db_cache.py
+|   |   filters.py
+|   |   logging.py
+|   |   middleware.py
+|   |   models.py
+|   |   network.py
+|   |   serialisers.py
+|   |   signals.py
+|   |   urls.py
+|   |   utils.py
+|   |   validators.py
+|   |   version.py
+|   |   views.py
+|   |   wsgi.py
+|   |   __init__.py
+|   |   
+|   +---migrations
+|   |       0001_initial.py
+|   |       0002_applicationconfiguration_app_logo_and_more.py
+|   |       0003_alter_applicationconfiguration_max_image_pixels.py
+|   |       0004_applicationconfiguration_barcode_asn_prefix_and_more.py
+|   |       0005_applicationconfiguration_ai_enabled_and_more.py
+|   |       0006_applicationconfiguration_barcode_tag_split.py
+|   |       0007_optimize_integer_field_sizes.py
+|   |       0008_replace_skip_archive_file.py
+|   |       0009_alter_applicationconfiguration_options.py
+|   |       0010_alter_applicationconfiguration_llm_embedding_backend.py
+|   |       0011_applicationconfiguration_llm_embedding_chunk_size.py
+|   |       0012_applicationconfiguration_llm_output_language.py
+|   |       0013_applicationconfiguration_llm_request_timeout.py
+|   |       __init__.py
+|   |       
+|   +---parsers
+|   |       mail.py
+|   |       registry.py
+|   |       remote.py
+|   |       tesseract.py
+|   |       text.py
+|   |       tika.py
+|   |       utils.py
+|   |       __init__.py
+|   |       
+|   +---settings
+|   |       custom.py
+|   |       parsers.py
+|   |       __init__.py
+|   |       
+|   +---static
+|   |   \---paperless
+|   |       \---img
+|   |               favicon.ico
+|   |               
+|   \---tests
+|       |   conftest.py
+|       |   test_adapter.py
+|       |   test_api_auth.py
+|       |   test_celery.py
+|       |   test_checks.py
+|       |   test_checks_v3.py
+|       |   test_logging.py
+|       |   test_migration_replace_skip_archive_file.py
+|       |   test_network.py
+|       |   test_ocr_config.py
+|       |   test_parser_utils.py
+|       |   test_registry.py
+|       |   test_signals.py
+|       |   test_utils.py
+|       |   test_views.py
+|       |   test_websockets.py
+|       |   __init__.py
+|       |   
+|       +---parsers
+|       |       conftest.py
+|       |       test_convert_image_to_pdfa.py
+|       |       test_mail_parser.py
+|       |       test_mail_parser_live.py
+|       |       test_parse_modes.py
+|       |       test_remote_parser.py
+|       |       test_tesseract_custom_settings.py
+|       |       test_tesseract_parser.py
+|       |       test_text_parser.py
+|       |       test_tika_liva.py
+|       |       test_tika_parser.py
+|       |       __init__.py
+|       |       
+|       +---samples
+|       |   +---mail
+|       |   |       broken.eml
+|       |   |       first.pdf
+|       |   |       html.eml
+|       |   |       html.eml.html
+|       |   |       html.eml.pdf
+|       |   |       html.eml.pdf.webp
+|       |   |       sample.html
+|       |   |       sample.html.pdf
+|       |   |       sample.html.pdf.webp
+|       |   |       sample.png
+|       |   |       second.pdf
+|       |   |       simple_text.eml
+|       |   |       simple_text.eml.pdf
+|       |   |       simple_text.eml.pdf.webp
+|       |   |       
+|       |   +---tesseract
+|       |   |       document.webp
+|       |   |       encrypted.pdf
+|       |   |       multi-page-digital.pdf
+|       |   |       multi-page-images-alpha-rgb.tiff
+|       |   |       multi-page-images-alpha.tiff
+|       |   |       multi-page-images.pdf
+|       |   |       multi-page-images.tiff
+|       |   |       multi-page-mixed.pdf
+|       |   |       no-text-alpha.png
+|       |   |       rotated.pdf
+|       |   |       rtl-test.pdf
+|       |   |       signed.pdf
+|       |   |       simple-alpha.png
+|       |   |       simple-digital.pdf
+|       |   |       simple-no-dpi.png
+|       |   |       simple.bmp
+|       |   |       simple.gif
+|       |   |       simple.heic
+|       |   |       simple.jpg
+|       |   |       simple.png
+|       |   |       simple.tif
+|       |   |       single-page-mixed.pdf
+|       |   |       with-form.pdf
+|       |   |       
+|       |   +---text
+|       |   |       decode_error.txt
+|       |   |       test.txt
+|       |   |       
+|       |   \---tika
+|       |           multi-part-broken.odt
+|       |           sample.doc
+|       |           sample.docx
+|       |           sample.odt
+|       |           
+|       \---settings
+|               test_custom_parsers.py
+|               test_db_cache.py
+|               test_environment_parsers.py
+|               test_remote_user.py
+|               test_settings.py
+|               __init__.py
+|               
++---paperless_ai
+|   |   ai_classifier.py
+|   |   base_model.py
+|   |   chat.py
+|   |   client.py
+|   |   db.py
+|   |   embedding.py
+|   |   exceptions.py
+|   |   indexing.py
+|   |   matching.py
+|   |   vector_store.py
+|   |   __init__.py
+|   |   
+|   \---tests
+|           conftest.py
+|           test_ai_classifier.py
+|           test_ai_indexing.py
+|           test_chat.py
+|           test_client.py
+|           test_embedding.py
+|           test_index_locking.py
+|           test_lazy_imports.py
+|           test_matching.py
+|           test_vector_store.py
+|           __init__.py
+|           
+\---paperless_mail
+    |   admin.py
+    |   apps.py
+    |   filters.py
+    |   mail.py
+    |   models.py
+    |   oauth.py
+    |   preprocessor.py
+    |   serialisers.py
+    |   tasks.py
+    |   views.py
+    |   __init__.py
+    |   
+    +---management
+    |   |   __init__.py
+    |   |   
+    |   \---commands
+    |           mail_fetcher.py
+    |           __init__.py
+    |           
+    +---migrations
+    |       0001_squashed.py
+    |       0002_optimize_integer_field_sizes.py
+    |       0003_mailrule_stop_processing.py
+    |       __init__.py
+    |       
+    +---templates
+    |       email_msg_template.html
+    |       input.css
+    |       output.css
+    |       package-lock.json
+    |       package.json
+    |       tailwind.config.js
+    |       
+    \---tests
+            conftest.py
+            factories.py
+            test_api.py
+            test_live_mail.py
+            test_mail.py
+            test_mail_nfc.py
+            test_mail_oauth.py
+            test_preprocessor.py
+            __init__.py
+            
