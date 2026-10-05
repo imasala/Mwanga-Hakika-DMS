@@ -1488,7 +1488,7 @@ class DocumentSerializer(
         super().__init__(*args, **kwargs)
     
     def get_expiry_status(self, obj):
-        return obj.expiry_status.value
+        return obj.expiry_status
 
     class Meta:
         model = Document
