@@ -41,6 +41,9 @@ from documents.models import Correspondent
 from documents.models import CustomField
 from documents.models import CustomFieldInstance
 from documents.models import Document
+
+from documents.models import DocumentAuditLog
+
 from documents.models import DocumentType
 from documents.models import PaperlessTask
 from documents.models import SavedView
@@ -744,6 +747,32 @@ def update_llm_suggestions_cache(sender, instance, **kwargs):
     """
     # Invalidate the cache for the document
     invalidate_llm_suggestions_cache(instance.pk)
+
+@receiver(models.signals.post_save, sender=Document)
+def create_document_audit_log(
+    sender: Any,
+    instance: Document,
+    created: bool,
+    **kwargs: Any,
+) -> None:
+    print(
+        "AUDIT DEBUG:",
+        instance.pk,
+        instance.title,
+        "created=",
+        created,
+        "kwargs=",
+        kwargs,
+    )
+
+    DocumentAuditLog.objects.create(
+        document_name=instance.title,
+        activity=(
+            DocumentAuditLog.Activity.ADDED
+            if created
+            else DocumentAuditLog.Activity.UPDATED
+        ),
+    )
 
 
 @receiver(models.signals.post_delete, sender=User)

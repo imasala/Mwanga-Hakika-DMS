@@ -64,6 +64,9 @@ from documents.models import Correspondent
 from documents.models import CustomField
 from documents.models import CustomFieldInstance
 from documents.models import Document
+
+from documents.models import DocumentAuditLog
+
 from documents.models import DocumentType
 from documents.models import MatchingModel
 from documents.models import Note
@@ -594,6 +597,21 @@ class ColorField(serializers.Field):
             if color == value:
                 return id
         return 1
+
+
+class DocumentAuditLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocumentAuditLog
+        fields = (
+            "document_name",
+            "activity",
+            "created",
+        )
+        read_only_fields = (
+            "document_name",
+            "activity",
+            "created",
+        )
 
 
 class TagSerializer(MatchingModelSerializer, OwnedObjectSerializer):

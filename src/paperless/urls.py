@@ -30,6 +30,9 @@ from documents.views import CorrespondentViewSet
 from documents.views import CustomFieldViewSet
 from documents.views import DeleteDocumentsView
 from documents.views import DocumentTypeViewSet
+
+from documents.views import DocumentAuditLogViewSet
+
 from documents.views import EditPdfDocumentsView
 from documents.views import GlobalSearchView
 from documents.views import IndexView
@@ -78,6 +81,9 @@ api_router = DefaultRouter()
 api_router.register(r"correspondents", CorrespondentViewSet)
 api_router.register(r"document_types", DocumentTypeViewSet)
 api_router.register(r"documents", UnifiedSearchViewSet)
+
+api_router.register(r"audit_logs", DocumentAuditLogViewSet, basename="audit_logs")
+
 api_router.register(r"logs", LogViewSet, basename="logs")
 api_router.register(r"tags", TagViewSet)
 api_router.register(r"saved_views", SavedViewViewSet)

@@ -26,6 +26,8 @@ from rest_framework.views import APIView
 
 from documents.document_creation import generate_pdf_from_html
 
+from documents.serialisers import DocumentAuditLogSerializer
+
 import httpx
 import magic
 import pathvalidate
@@ -157,6 +159,9 @@ from documents.models import Correspondent
 from documents.models import CustomField
 from documents.models import CustomFieldInstance
 from documents.models import Document
+
+from documents.models import DocumentAuditLog
+
 from documents.models import DocumentType
 from documents.models import Note
 from documents.models import PaperlessTask
@@ -4114,6 +4119,27 @@ class _TasksViewSetSchema(AutoSchema):
         responses={200: TaskSerializerV10(many=True)},
     ),
 )
+
+class DocumentAuditLogViewSet(ReadOnlyModelViewSet[DocumentAuditLog]):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = StandardPagination
+    queryset = DocumentAuditLog.objects.all()
+    serializer_class = DocumentAuditLogSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ("document_name", "activity", "created")
+    ordering = ("-created",)
+
+
+class DocumentAuditLogViewSet(ReadOnlyModelViewSet[DocumentAuditLog]):
+    permission_classes = (IsAuthenticated,)
+    pagination_class = StandardPagination
+    queryset = DocumentAuditLog.objects.all()
+    serializer_class = DocumentAuditLogSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ("document_name", "activity", "created")
+    ordering = ("-created",)
+
+
 class TasksViewSet(ReadOnlyModelViewSet[PaperlessTask]):
     schema = _TasksViewSetSchema()
     permission_classes = (IsAuthenticated, PaperlessObjectPermissions)

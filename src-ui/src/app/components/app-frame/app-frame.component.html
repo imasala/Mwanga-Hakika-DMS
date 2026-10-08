@@ -262,6 +262,16 @@
                 <i-bs class="me-2" name="envelope"></i-bs><span><ng-container i18n>Mail</ng-container></span>
               </a>
             </li>
+            <a
+              class="nav-link"
+              routerLink="audit-log"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+              ngbPopover="Audit Log"
+            >
+              <i-bs class="me-2" name="journal-text"></i-bs>
+              <span><ng-container i18n>Audit Log</ng-container></span>
+            </a>
             <li class="nav-item app-link" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Document }">
               <a class="nav-link" routerLink="trash" routerLinkActive="active" (click)="closeMenu()" ngbPopover="Trash"
                 i18n-ngbPopover [disablePopover]="!slimSidebarEnabled" placement="end" container="body"

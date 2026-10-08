@@ -627,13 +627,52 @@ class Document(SoftDeleteModel, ModelWithOwner):  # type: ignore[django-manager-
         *args,
         **kwargs,
     ):
+        DocumentAuditLog.objects.create(
+            document_name=self.title,
+            activity=DocumentAuditLog.Activity.DELETED,
+        )
+
         # If deleting a root document, move all its versions to trash as well.
         if self.root_document_id is None:
             Document.objects.filter(root_document=self).delete()
+
         return super().delete(
             *args,
             **kwargs,
         )
+
+class DocumentAuditLog(models.Model):
+    class Activity(models.TextChoices):
+        ADDED = "ADDED", _("Added")
+        UPDATED = "UPDATED", _("Updated")
+        DELETED = "DELETED", _("Deleted")
+
+    document_name = models.CharField(
+        max_length=512,
+        verbose_name=_("document name"),
+    )
+
+    activity = models.CharField(
+        max_length=20,
+        choices=Activity.choices,
+        verbose_name=_("activity"),
+    )
+
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("date"),
+    )
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = _("document audit log")
+        verbose_name_plural = _("document audit logs")
+
+    def __str__(self):
+        return f"{self.document_name} - {self.activity}"
+
+
+
 
 
 class SavedView(ModelWithOwner):

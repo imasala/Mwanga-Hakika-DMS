@@ -1,8 +1,11 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common'
 import { HttpClient, HttpResponse } from '@angular/common/http'
+import { Group } from 'src/app/data/group'
+import { GroupService } from 'src/app/services/rest/group.service'
 import {
   Component,
   inject,
+  computed,
   OnDestroy,
   OnInit,
   signal,
@@ -225,6 +228,7 @@ export class DocumentDetailComponent
   private deviceDetectorService = inject(DeviceDetectorService)
   private savedViewService = inject(SavedViewService)
   private readonly websocketStatusService = inject(WebsocketStatusService)
+  private readonly groupService = inject(GroupService)
 
   @ViewChild('inputTitle')
   titleInput: TextComponent
@@ -259,15 +263,24 @@ export class DocumentDetailComponent
   // Versioning
   readonly selectedVersionId = signal<number>(undefined)
 
-  readonly serviceTypes = [
-  { id: 'marketing', name: $localize`Marketing` },
-  { id: 'loan', name: $localize`Loan` },
-  { id: 'guarantee', name: $localize`Guarantee` },
-  ]
+  // readonly serviceTypes = [
+  // { id: 'marketing', name: $localize`Marketing` },
+  // { id: 'loan', name: $localize`Loan` },
+  // { id: 'guarantee', name: $localize`Guarantee` },
+  // ]
 
   readonly correspondents = signal<Correspondent[]>(undefined)
   readonly documentTypes = signal<DocumentType[]>(undefined)
   readonly storagePaths = signal<StoragePath[]>(undefined)
+  readonly groups = signal<Group[]>([])
+  readonly departmentOptions = computed(() =>
+  this.groups()
+    .filter((group) => !!group.name)
+    .map((group) => ({
+      id: group.name!,
+      name: group.name!,
+    })),
+  )
 
   documentForm: FormGroup = new FormGroup({
     title: new FormControl(''),
@@ -778,6 +791,10 @@ export class DocumentDetailComponent
         .pipe(first(), takeUntil(this.unsubscribeNotifier))
         .subscribe((result) => this.storagePaths.set(result.results))
     }
+    this.groupService
+  .listAll()
+  .pipe(first(), takeUntil(this.unsubscribeNotifier))
+  .subscribe((result) => this.groups.set(result.results))
     if (
       this.permissionsService.currentUserCan(
         PermissionAction.View,

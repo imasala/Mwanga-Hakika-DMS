@@ -169,21 +169,21 @@
     [horizontal]="true">
 </pngx-input-text>
 
-<pngx-input-select
+<pngx-input-text
     i18n-title
     title="Service type"
-    [items]="serviceTypes"
     formControlName="service_type"
+    [horizontal]="true">
+</pngx-input-text>
+
+<pngx-input-select
+    i18n-title
+    title="Department"
+    [items]="departmentOptions()"
+    formControlName="department"
     [allowNull]="true"
     [horizontal]="true">
 </pngx-input-select>
-
-<pngx-input-text
-    i18n-title
-    title="Department"
-    formControlName="department"
-    [horizontal]="true">
-</pngx-input-text>
 
 <pngx-input-text
     i18n-title

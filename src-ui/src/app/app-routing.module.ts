@@ -4,6 +4,8 @@ import { ConfigComponent } from './components/admin/config/config.component'
 
 import { DocumentCreationComponent } from './components/document-creation/document-creation.component'
 
+import { AuditLogComponent } from './components/audit-log/audit-log.component'
+
 import { LogsComponent } from './components/admin/logs/logs.component'
 import { SettingsComponent } from './components/admin/settings/settings.component'
 import { TasksComponent } from './components/admin/tasks/tasks.component'
@@ -293,6 +295,14 @@ export const routes: Routes = [
           componentName: 'MailComponent',
         },
       },
+          {
+      path: 'audit-log',
+      component: AuditLogComponent,
+      canActivate: [PermissionsGuard],
+      data: {
+        componentName: 'AuditLogComponent',
+      },
+    },
       {
         path: 'usersgroups',
         component: UsersAndGroupsComponent,

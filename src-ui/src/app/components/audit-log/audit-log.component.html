@@ -1,0 +1,42 @@
+<pngx-page-header
+  title="Audit Log"
+  icon="journal-text"
+></pngx-page-header>
+
+<div class="container-fluid">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Document Name</th>
+          <th scope="col">Activity</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @if (loading()) {
+          <tr>
+            <td colspan="3" class="text-center py-4">
+              Loading...
+            </td>
+          </tr>
+        } @else if (auditLogs().length === 0) {
+          <tr>
+            <td colspan="3" class="text-center py-4">
+              No audit records found.
+            </td>
+          </tr>
+        } @else {
+          @for (log of auditLogs(); track log.id) {
+            <tr>
+              <td>{{ log.document_name }}</td>
+              <td>{{ log.activity }}</td>
+              <td>{{ log.created | date: 'medium' }}</td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
