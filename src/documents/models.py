@@ -349,7 +349,7 @@ class Document(SoftDeleteModel, ModelWithOwner):  # type: ignore[django-manager-
     @property
     def expiry_status(self):
         if not self.expiry_date:
-            return "no expiry"
+            return "no_expiry"
 
         today = timezone.now().date()
 
@@ -359,7 +359,7 @@ class Document(SoftDeleteModel, ModelWithOwner):  # type: ignore[django-manager-
         three_months_from_now = today + relativedelta(months=3)
 
         if self.expiry_date <= three_months_from_now:
-            return "expiring soon"
+            return "expiring_soon"
 
         return "valid"
 

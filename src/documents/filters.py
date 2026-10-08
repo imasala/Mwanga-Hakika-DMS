@@ -1072,7 +1072,7 @@ class ObjectOwnedOrGrantedPermissionsFilter(ObjectPermissionsFilter):
         group_role_documents = queryset.none()
         hierarchical_role_documents = queryset.none()
 
-        if user_role:
+        if user_role and queryset.model is Document:
             role_hierarchy = [
                 UserRole.Role.ADMIN,
                 UserRole.Role.HEAD,
