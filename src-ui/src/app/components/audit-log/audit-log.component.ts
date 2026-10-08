@@ -1,9 +1,9 @@
 import { Component, OnInit, inject, signal } from '@angular/core'
+import { DatePipe } from '@angular/common'
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons'
 import { AuditLog } from 'src/app/data/audit-log'
 import { AuditLogService } from 'src/app/services/rest/audit-log.service'
 import { PageHeaderComponent } from '../common/page-header/page-header.component'
-import { DatePipe } from 'node_modules/@angular/common/types/_common_module-chunk'
 
 @Component({
   selector: 'pngx-audit-log',
