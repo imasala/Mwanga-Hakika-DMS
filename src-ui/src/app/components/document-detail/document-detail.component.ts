@@ -468,6 +468,83 @@ export class DocumentDetailComponent
     }
   }
 
+  
+private calculateTenure(startDate: any, expiryDate: any): string | null {
+  if (!startDate || !expiryDate) {
+    return null
+  }
+
+  const toDate = (value: any): Date | null => {
+    if (value instanceof Date) {
+      return new Date(
+        Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())
+      )
+    }
+
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value))
+
+    if (match) {
+      return new Date(
+        Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+      )
+    }
+
+    const parsed = new Date(value)
+    if (Number.isNaN(parsed.getTime())) return null
+
+    return new Date(
+      Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate())
+    )
+  }
+
+  const start = toDate(startDate)
+  const expiry = toDate(expiryDate)
+
+  if (!start || !expiry || expiry < start) {
+    return null
+  }
+
+  const startYear = start.getUTCFullYear()
+  const startMonth = start.getUTCMonth()
+  const startDay = start.getUTCDate()
+
+  let months =
+    (expiry.getUTCFullYear() - startYear) * 12 +
+    expiry.getUTCMonth() - startMonth
+
+  const getMonthDate = (monthCount: number): Date => {
+    const year = startYear + Math.floor((startMonth + monthCount) / 12)
+    const month = (startMonth + monthCount) % 12
+    const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
+
+    return new Date(
+      Date.UTC(year, month, Math.min(startDay, lastDay))
+    )
+  }
+
+  let monthDate = getMonthDate(months)
+
+  if (monthDate > expiry) {
+    months--
+    monthDate = getMonthDate(months)
+  }
+
+  const remainingDays = Math.round(
+    (expiry.getTime() - monthDate.getTime()) / 86400000
+  )
+
+  if (months === 0) {
+    return `${remainingDays} day${remainingDays !== 1 ? 's' : ''}`
+  }
+
+  if (remainingDays === 0) {
+    return `${months} month${months !== 1 ? 's' : ''}`
+  }
+
+  return `${months} month${months !== 1 ? 's' : ''} ${remainingDays} day${remainingDays !== 1 ? 's' : ''}`
+}
+
+
   private mapFormToDoc(value: any): any {
     const docValues = { ...value }
     docValues['owner'] = value['permissions_form']?.owner
@@ -751,12 +828,29 @@ export class DocumentDetailComponent
     this.setZoom(
       this.settings.get(SETTINGS_KEYS.PDF_VIEWER_ZOOM_SETTING) as PdfZoomScale
     )
-    this.documentForm.valueChanges
-      .pipe(takeUntil(this.unsubscribeNotifier))
-      .subscribe((values) => {
-        this.error.set(null)
-        Object.assign(this.document(), this.mapFormToDoc(values))
+   
+this.documentForm.valueChanges
+  .pipe(takeUntil(this.unsubscribeNotifier))
+  .subscribe((values) => {
+    this.error.set(null)
+
+    const tenure = this.calculateTenure(
+      values.start_date,
+      values.expiry_date
+    )
+
+    if (this.documentForm.get('tenure')?.value !== tenure) {
+      this.documentForm.get('tenure')?.setValue(tenure, {
+        emitEvent: false,
       })
+    }
+
+    Object.assign(
+      this.document(),
+      this.mapFormToDoc(this.documentForm.getRawValue())
+    )
+  })
+
 
     if (
       this.permissionsService.currentUserCan(

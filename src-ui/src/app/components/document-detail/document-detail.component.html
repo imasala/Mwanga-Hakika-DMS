@@ -185,13 +185,6 @@
     [horizontal]="true">
 </pngx-input-select>
 
-<pngx-input-text
-    i18n-title
-    title="Tenure"
-    formControlName="tenure"
-    [horizontal]="true">
-</pngx-input-text>
-
 <pngx-input-date
     i18n-title
     title="Start date"
@@ -205,6 +198,14 @@
     formControlName="expiry_date"
     [horizontal]="true">
 </pngx-input-date>
+
+<pngx-input-text
+    i18n-title
+    title="Tenure"
+    formControlName="tenure"
+    [readonly]="true"
+    [horizontal]="true">
+</pngx-input-text>
 
 <pngx-input-date
     i18n-title
@@ -227,7 +228,7 @@
   </pngx-input-number>
 } -->
 
-@if (!isFieldHidden(DocumentDetailFieldID.Correspondent)) {
+<!-- @if (!isFieldHidden(DocumentDetailFieldID.Correspondent)) {
   <pngx-input-select
     [items]="correspondents()"
     i18n-title
@@ -242,7 +243,7 @@
     [suggestions]="suggestions()?.correspondents"
     *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Correspondent }">
   </pngx-input-select>
-}
+} -->
 
 <!-- @if (!isFieldHidden(DocumentDetailFieldID.DocumentType)) {
   <pngx-input-select

@@ -31,6 +31,9 @@ export class TextComponent extends AbstractInputComponent<string> {
   autocomplete: string
 
   @Input()
+  readonly = false
+
+  @Input()
   placeholder: string = ''
 
   @Input()
