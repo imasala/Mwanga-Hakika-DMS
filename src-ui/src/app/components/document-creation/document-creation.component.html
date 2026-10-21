@@ -92,6 +92,7 @@
           type="button"
           class="btn btn-sm btn-light"
           title="Bold"
+          (mousedown)="$event.preventDefault()"
           (click)="toggleBold()"
         >
           <strong>B</strong>
@@ -215,12 +216,15 @@
     <div class="document-workspace">
       <div class="document-page">
       <div
-          class="tiptap-editor"
-          [contentEditable]="true"
-          #editorElement
-          (keydown)="$event.stopPropagation()"
-          (keyup)="$event.stopPropagation()"
-        ></div>
+      class="document-editor"
+      contenteditable="true"
+      role="textbox"
+      aria-label="Document content editor"
+      aria-multiline="true"
+      #editorElement
+      (keydown)="$event.stopPropagation()"
+      (keyup)="$event.stopPropagation()"
+    ></div>
       </div>
     </div>
 
