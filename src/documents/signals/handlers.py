@@ -748,6 +748,7 @@ def update_llm_suggestions_cache(sender, instance, **kwargs):
     # Invalidate the cache for the document
     invalidate_llm_suggestions_cache(instance.pk)
 
+
 @receiver(models.signals.post_save, sender=Document)
 def create_document_audit_log(
     sender: Any,
@@ -755,15 +756,16 @@ def create_document_audit_log(
     created: bool,
     **kwargs: Any,
 ) -> None:
-    print(
-        "AUDIT DEBUG:",
-        instance.pk,
-        instance.title,
-        "created=",
-        created,
-        "kwargs=",
-        kwargs,
-    )
+    update_fields = kwargs.get("update_fields")
+
+    # Do not record deletion-state changes as document updates.
+    if (
+        not created
+        and update_fields is not None
+        and "deleted_at" in update_fields
+        and instance.deleted_at is not None
+    ):
+        return
 
     DocumentAuditLog.objects.create(
         document_name=instance.title,
