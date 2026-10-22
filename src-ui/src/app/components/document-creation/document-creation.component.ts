@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -7,12 +6,6 @@ import {
 } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons'
-import { Editor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import TextAlign from '@tiptap/extension-text-align'
-import Underline from '@tiptap/extension-underline'
-import Link from '@tiptap/extension-link'
-import Placeholder from '@tiptap/extension-placeholder'
 
 @Component({
   selector: 'pngx-document-creation',
@@ -20,178 +13,156 @@ import Placeholder from '@tiptap/extension-placeholder'
   styleUrls: ['./document-creation.component.scss'],
   imports: [NgxBootstrapIconsModule],
 })
-export class DocumentCreationComponent
-  implements AfterViewInit, OnDestroy
-{
+export class DocumentCreationComponent implements OnDestroy {
   @ViewChild('editorElement')
   editorElement!: ElementRef<HTMLDivElement>
 
   generatedPdfUrl: string | null = null
 
-  editor!: Editor
-
   constructor(private http: HttpClient) {}
 
-  ngAfterViewInit(): void {
-    this.editor = new Editor({
-      element: this.editorElement.nativeElement,
-      extensions: [
-        StarterKit,
-        Underline,
-        TextAlign.configure({
-          types: ['heading', 'paragraph'],
-        }),
-        Link.configure({
-          openOnClick: false,
-        }),
-        Placeholder.configure({
-          placeholder: 'Start writing your document...',
-        }),
-      ],
-      content: '',
-    })
+  private get editor(): HTMLDivElement | undefined {
+    return this.editorElement?.nativeElement
   }
 
- ngOnDestroy(): void {
-  this.editor?.destroy()
+  private formatDocument(command: string, value?: string): void {
+    if (!this.editor) return
 
-  if (this.generatedPdfUrl) {
-    window.URL.revokeObjectURL(
-      this.generatedPdfUrl
-    )
+    this.editor.focus()
+    document.execCommand(command, false, value)
   }
-}
 
   setParagraph(): void {
-    this.editor.chain().focus().setParagraph().run()
+    this.formatDocument('formatBlock', 'P')
   }
 
   setHeading(level: 1 | 2 | 3): void {
-    this.editor
-      .chain()
-      .focus()
-      .toggleHeading({ level })
-      .run()
+    this.formatDocument('formatBlock', `H${level}`)
   }
 
   toggleBold(): void {
-    this.editor.chain().focus().toggleBold().run()
+    this.formatDocument('bold')
   }
 
   toggleItalic(): void {
-    this.editor.chain().focus().toggleItalic().run()
+    this.formatDocument('italic')
   }
 
   toggleUnderline(): void {
-    this.editor.chain().focus().toggleUnderline().run()
+    this.formatDocument('underline')
   }
 
   setTextAlign(
-    alignment: 'left' | 'center' | 'right' | 'justify'
+    alignment: 'left' | 'center' | 'right' | 'justify',
   ): void {
-    this.editor.chain().focus().setTextAlign(alignment).run()
+    const commands: Record<string, string> = {
+      left: 'justifyLeft',
+      center: 'justifyCenter',
+      right: 'justifyRight',
+      justify: 'justifyFull',
+    }
+
+    this.formatDocument(commands[alignment])
   }
 
   toggleBulletList(): void {
-    this.editor.chain().focus().toggleBulletList().run()
+    this.formatDocument('insertUnorderedList')
   }
 
   toggleOrderedList(): void {
-    this.editor.chain().focus().toggleOrderedList().run()
+    this.formatDocument('insertOrderedList')
   }
 
   undo(): void {
-    this.editor.chain().focus().undo().run()
+    this.formatDocument('undo')
   }
 
   redo(): void {
-    this.editor.chain().focus().redo().run()
+    this.formatDocument('redo')
   }
 
   setLink(): void {
+    if (!this.editor) return
+
     const url = window.prompt('Enter URL')
 
-    if (url === null) {
+    if (url === null) return
+
+    if (url.trim() === '') {
+      this.formatDocument('unlink')
       return
     }
 
-    if (url === '') {
-      this.editor.chain().focus().unsetLink().run()
+    const trimmedUrl = url.trim()
+
+    if (!/^(https?:\/\/|mailto:)/i.test(trimmedUrl)) {
+      window.alert('Enter a valid URL beginning with http://, https://, or mailto:')
       return
     }
 
-    this.editor.chain().focus().setLink({
-      href: url,
-    }).run()
+    this.formatDocument('createLink', trimmedUrl)
   }
 
-generatePdf(): void {
-  if (!this.editor) {
-    return
+  generatePdf(): void {
+    if (!this.editor) return
+
+    const html = this.editor.innerHTML.trim()
+
+    if (!html) {
+      window.alert('Please enter document content before generating the PDF.')
+      return
+    }
+
+    this.http
+      .post(
+        '/api/documents/create_from_html/',
+        { html },
+        { responseType: 'blob' },
+      )
+      .subscribe({
+        next: (pdfBlob) => {
+          if (this.generatedPdfUrl) {
+            window.URL.revokeObjectURL(this.generatedPdfUrl)
+          }
+
+          this.generatedPdfUrl = window.URL.createObjectURL(pdfBlob)
+          window.open(this.generatedPdfUrl, '_blank')
+        },
+        error: (error) => {
+          console.error('Failed to generate PDF:', error)
+          window.alert('Failed to generate the PDF. Check the application logs.')
+        },
+      })
   }
 
-  const html = this.editor.getHTML()
+  printPdf(): void {
+    if (!this.generatedPdfUrl) return
 
-  this.http
-    .post(
-      '/api/documents/create_from_html/',
-      { html },
-      {
-        responseType: 'blob',
-      }
-    )
-    .subscribe({
-      next: (pdfBlob) => {
-        if (this.generatedPdfUrl) {
-          window.URL.revokeObjectURL(
-            this.generatedPdfUrl
-          )
-        }
+    const printWindow = window.open(this.generatedPdfUrl, '_blank')
 
-        this.generatedPdfUrl =
-          window.URL.createObjectURL(pdfBlob)
+    if (!printWindow) {
+      window.alert('The browser blocked the print window. Allow pop-ups and try again.')
+      return
+    }
 
-        window.open(
-          this.generatedPdfUrl,
-          '_blank'
-        )
-      },
-
-      error: (error) => {
-        console.error(
-          'Failed to generate PDF:',
-          error
-        )
-      },
-    })
-}
-
-printPdf(): void {
-  if (!this.generatedPdfUrl) {
-    return
+    printWindow.onload = () => printWindow.print()
   }
-
-  const printWindow = window.open(
-    this.generatedPdfUrl,
-    '_blank'
-  )
-
-  if (!printWindow) {
-    console.error(
-      'The browser blocked the print window.'
-    )
-    return
-  }
-
-  printWindow.onload = () => {
-    printWindow.print()
-  }
-}
-
-
 
   newDocument(): void {
-    this.editor.commands.clearContent()
-    this.editor.commands.focus()
+    if (!this.editor) return
+
+    this.editor.innerHTML = ''
+    this.editor.focus()
+
+    if (this.generatedPdfUrl) {
+      window.URL.revokeObjectURL(this.generatedPdfUrl)
+      this.generatedPdfUrl = null
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.generatedPdfUrl) {
+      window.URL.revokeObjectURL(this.generatedPdfUrl)
+    }
   }
 }
