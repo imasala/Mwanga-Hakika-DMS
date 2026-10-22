@@ -64,7 +64,7 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
-.tiptap-editor {
+.document-editor {
   min-height: 247mm;
   outline: none;
 
@@ -74,51 +74,51 @@
   color: #212529;
 }
 
-.tiptap-editor:focus {
+.document-editor:focus {
   outline: none;
 }
 
-.tiptap-editor p {
+.document-editor p {
   margin-top: 0;
   margin-bottom: 0.75rem;
 }
 
-.tiptap-editor h1 {
+.document-editor h1 {
   font-size: 20pt;
   margin-top: 1rem;
   margin-bottom: 0.75rem;
 }
 
-.tiptap-editor h2 {
+.document-editor h2 {
   font-size: 16pt;
   margin-top: 1rem;
   margin-bottom: 0.6rem;
 }
 
-.tiptap-editor h3 {
+.document-editor h3 {
   font-size: 13pt;
   margin-top: 0.8rem;
   margin-bottom: 0.5rem;
 }
 
-.tiptap-editor ul,
-.tiptap-editor ol {
+.document-editor ul,
+.document-editor ol {
   padding-left: 1.5rem;
 }
 
-.tiptap-editor blockquote {
+.document-editor blockquote {
   border-left: 3px solid var(--bs-border-color);
   margin-left: 0;
   padding-left: 1rem;
   color: var(--bs-secondary-color);
 }
 
-.tiptap-editor a {
+.document-editor a {
   color: var(--bs-link-color);
   text-decoration: underline;
 }
 
-.tiptap-editor p.is-editor-empty:first-child::before {
+.document-editor p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
   height: 0;
@@ -137,7 +137,7 @@
     padding: 20mm 15mm;
   }
 
-  .tiptap-editor {
+  .document-editor {
     min-height: 600px;
   }
 }
